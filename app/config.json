@@ -1,0 +1,9 @@
+{
+  "serviceName": "Transcription and summary service",
+  "useServiceNavigation": true,
+  "plugins": {
+    "govuk-frontend": {
+      "rebrand": true
+    }
+  }
+}

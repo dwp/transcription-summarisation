@@ -1,0 +1,138 @@
+//
+// For guidance on how to add CSS and SCSS see:
+// https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
+// 
+
+// if installed as a plugin packagefind node_modules -path '*internal-service*' -name '*.scss'
+//
+
+// For guidance on how to add CSS and SCSS see:
+
+// https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
+
+// 
+
+// Add extra styles here
+
+// Section heading with a right-aligned "Change" link
+
+.dwp-section-heading {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: baseline;
+
+  gap: 16px;
+
+  margin-bottom: 20px;
+
+}
+
+// Condition history as a single editable component.
+
+// Each field is a heading sitting directly on its paragraph (no gap),
+
+// with items spaced from each other. Editing swaps every field's value
+
+// for a textarea at once, with one Save/Cancel bar for the whole section.
+
+.dwp-editable-group {
+
+  margin-bottom: 24px;
+
+}
+
+.dwp-field {
+
+  margin-bottom: 20px;
+
+  h3 {
+
+    margin-bottom: 0;
+
+  }
+
+  &__value {
+
+    margin-top: 0;
+
+    margin-bottom: 0;
+
+    white-space: pre-line;
+
+  }
+
+  &__editor {
+    margin-top: 8px;
+    margin-bottom: 0;
+    max-width: 40em;
+  }
+}
+
+.dwp-group-editbar {
+  margin-top: 16px;
+  margin-bottom: 0;
+
+}
+
+// Muted placeholder for empty (optional or not-yet-added) values
+.dwp-muted {
+  color: #505a5f;
+
+}
+
+// A single medication within the Medication component
+.dwp-medication {
+  margin-bottom: 24px;
+  padding-top: 4px;
+  & + .dwp-medication {
+
+    border-top: 1px solid #b1b4b6;
+    padding-top: 20px;
+
+  }
+
+}
+
+.dwp-add-btn {
+  margin-bottom: 24px;
+
+}
+
+// Assessment call transcript
+
+.dwp-transcript {
+  &__turn {
+    margin-bottom: 16px;
+    padding: 8px 12px;
+    margin-left: -12px;
+    border-left: 4px solid transparent;
+    border-radius: 4px;
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+    &--highlight {
+
+      background-color: #fff2cc;
+      border-left-color: #b67a1a;
+
+    }
+
+  }
+  &__speaker {
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  &__time {
+    font-weight: 400;
+    color: #505a5f;
+    margin-left: 8px;
+
+  }
+
+  p.govuk-body {
+    margin-bottom: 0;
+    max-width: 40em;
+  }
+}

@@ -1,0 +1,107 @@
+{% extends "layouts/main.html" %}
+
+{% from "internal-service-header/macro.njk" import dwpHeader %}
+
+{% from "internal-service-footer/macro.njk" import dwpFooter %}
+
+{% set pageName = "Home" %}
+
+{% block header %}
+
+  {{ dwpHeader({
+
+    serviceName: serviceName,
+
+    serviceHref: "/",
+
+    container: true,
+
+    navigation: {
+
+      items: [
+
+        { href: "/", text: "Home" },
+
+        { href: "#", text: "Logout" }
+
+      ]
+
+    }
+
+  }) }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Team SWIFT prototypes</h1>
+
+    <p class="govuk-body">This is the main index where the different strands of work we are working on can be accessed. These designs are currently owned by team SWIFT.</p>
+
+    <p class="govuk-body">If you have any questions about this prototype, or to arrange a demo, contact:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+
+      <li>
+
+        <a class="govuk-link" href="mailto:rosemary.boyd-monk@engineering.digital.gov.uk">Rosemary Boyd-Monk</a>: Senior Interaction Designer
+
+      </li>
+
+      <li>
+
+        <a class="govuk-link" href="mailto:peter.leon@engineering.digital.gov.uk">Peter Leon</a>: Senior Content Designer
+
+      </li>
+
+      <li>
+
+        <a class="govuk-link" href="mailto:bakkiam.ganapathi@engineering.digital.gov.uk">Bakkiam Ganapathi</a>: User Researcher
+
+      </li>
+
+    </ul>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Transcription and summaries (AI)</h2>
+
+    <p class="govuk-body">Transform conversations into accurate transcripts and concise, actionable summaries.</p>
+
+    <p class="govuk-body">
+
+      <a href="/transcription/review-summary" class="govuk-link">View</a>
+
+    </p>
+
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
+  {{ dwpFooter({
+
+    meta: {
+
+      visuallyHiddenTitle: "About this website",
+
+      items: [
+
+        { href: "#", text: "Accessibility statement" },
+
+        { href: "#", text: "AI notice" },
+
+        { href: "/manage-prototype/clear-data", text: "Clear data" }
+
+      ]
+
+    }
+
+  }) }}
+
+{% endblock %}
