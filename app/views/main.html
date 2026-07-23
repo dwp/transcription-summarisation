@@ -4,28 +4,28 @@
 {% from "internal-service-footer/macro.njk" import dwpFooter %}
 
 {% block header %}
-  {{ dwpHeader({
-    serviceName: serviceName,
-    serviceHref: "/",
-    container: true,
-    navigation: {
-      items: [
-        { href: "/", text: "Home" },
-        { href: "#", text: "Logout" }
-      ]
-    }
-  }) }}
+ {{ dwpHeader({
+   serviceName: serviceName,
+    serviceHref: "/",
+    container: true,
+    navigation: {
+       items: [
+        { href: "/", text: "Home" },
+        { href: "#", text: "Logout" }
+      ]
+    }
+ }) }}
 {% endblock %}
 
 {% block footer %}
-  {{ dwpFooter({
-    meta: {
-      visuallyHiddenTitle: "About this website",
-      items: [
-        { href: "#", text: "Accessibility statement" },
-        { href: "#", text: "AI notice" },
-        { href: "/manage-prototype/clear-data", text: "Clear data" }
-      ]
-    }
-  }) }}
+ {{ dwpFooter({
+   meta: {
+   visuallyHiddenTitle: "About this website",
+   items: [
+    { href: "#", text: "Accessibility statement" },
+    { href: "#", text: "AI notice" },
+    { href: "/manage-prototype/clear-data", text: "Clear data" }
+   ]
+ }
+}) }}
 {% endblock %}
