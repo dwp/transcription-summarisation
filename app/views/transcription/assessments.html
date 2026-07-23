@@ -1,0 +1,87 @@
+{% extends "layouts/main.html" %}
+ 
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+ 
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+ 
+      {% set bannerHtml %}
+        <p class="govuk-notification-banner__heading">
+          Your 3pm assessment has finished processing.
+        </p>
+        <p class="govuk-body">
+          <a class="govuk-notification-banner__link" href="review-draft-summary.html">Review the transcript and summary</a>
+        </p>
+      {% endset %}
+ 
+      {{ govukNotificationBanner({
+        titleText: "Important",
+        html: bannerHtml
+      }) }}
+ 
+      <h1 class="govuk-heading-xl">Your assessments</h1>
+ 
+      <table class="govuk-table app-assessments-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Date and time</th>
+            <th scope="col" class="govuk-table__header">Type</th>
+            <th scope="col" class="govuk-table__header">Status</th>
+            <th scope="col" class="govuk-table__header">Action</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+ 
+          <tr class="govuk-table__row app-table__row--highlight">
+            <td class="govuk-table__cell">26 March 2026, 3pm</td>
+            <td class="govuk-table__cell">Telephone</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Ready to review", classes: "govuk-tag--yellow" }) }}</td>
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="review-draft-summary.html">Review summary<span class="govuk-visually-hidden"> for 26 March 2026, 3pm assessment</span></a>
+            </td>
+          </tr>
+ 
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">26 March 2026, 4pm</td>
+            <td class="govuk-table__cell">Telephone</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Upcoming", classes: "govuk-tag--grey" }) }}</td>
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Prepare<span class="govuk-visually-hidden"> for 26 March 2026, 4pm assessment</span></a>
+            </td>
+          </tr>
+ 
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">26 March 2026, 5pm</td>
+            <td class="govuk-table__cell">Telephone</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Upcoming", classes: "govuk-tag--grey" }) }}</td>
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Prepare<span class="govuk-visually-hidden"> for 26 March 2026, 5pm assessment</span></a>
+            </td>
+          </tr>
+ 
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">25 March 2026, 11am</td>
+            <td class="govuk-table__cell">Telephone</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Reviewed", classes: "govuk-tag--blue" }) }}</td>
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">Continue<span class="govuk-visually-hidden"> reviewing 25 March 2026, 11am assessment</span></a>
+            </td>
+          </tr>
+ 
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">25 March 2026, 9am</td>
+            <td class="govuk-table__cell">Telephone</td>
+            <td class="govuk-table__cell">{{ govukTag({ text: "Submitted", classes: "govuk-tag--green" }) }}</td>
+            <td class="govuk-table__cell">
+              <a class="govuk-link" href="#">View report<span class="govuk-visually-hidden"> for 25 March 2026, 9am assessment</span></a>
+            </td>
+          </tr>
+ 
+        </tbody>
+      </table>
+ 
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,473 @@
+{% extends "layouts/main.html" %}
+ 
+{% from "internal-service-header/macro.njk" import dwpHeader %}
+{% from "internal-service-footer/macro.njk" import dwpFooter %}
+ 
+{% set pageName = "Review draft report" %}
+ 
+{% block header %}
+  {{ dwpHeader({
+    serviceName: serviceName,
+    serviceHref: "/",
+    container: true,
+    navigation: {
+      items: [
+        { href: "/", text: "Home" },
+        { href: "#", text: "Logout" }
+      ]
+    }
+  }) }}
+{% endblock %}
+ 
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+ 
+    <a href="/" class="govuk-back-link">Back</a>
+ 
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">Review draft report</h1>
+ 
+    <p class="govuk-body">This summary comes from the call transcription. The transcription artificial intelligence (AI) has produced an initial draft summary.</p>
+ 
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-visually-hidden">Warning</span>
+        Transcription AI will not review this summary. You must check that all the relevant details are accurate.
+      </strong>
+    </div>
+ 
+    <div class="govuk-tabs" data-module="govuk-tabs">
+      <h2 class="govuk-tabs__title">Contents</h2>
+      <ul class="govuk-tabs__list">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+          <a class="govuk-tabs__tab" href="#summary">Summary</a>
+        </li>
+        <li class="govuk-tabs__list-item">
+          <a class="govuk-tabs__tab" href="#transcript">Transcript</a>
+        </li>
+      </ul>
+ 
+      {# ============ SUMMARY TAB ============ #}
+      <div class="govuk-tabs__panel" id="summary">
+ 
+        {# ---------- Condition history (single editable component) ---------- #}
+        <div class="dwp-editable-group" data-editable-group>
+ 
+          <div class="dwp-section-heading">
+            <h2 class="govuk-heading-l govuk-!-margin-bottom-0">Condition history</h2>
+            <a class="govuk-link dwp-group-edit" href="#">Edit</a>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Diagnosis details</h3>
+            <p class="govuk-body dwp-field__value">Stroke 6 months ago after presenting to A&amp;E with left-sided weakness and slurred speech.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Variability</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports fatigue every day throughout the day. She reports her memory problems remain present every day. She reports having no significant good days or bad days. Her symptoms are generally the same day to day. She reports speech difficulties when she speaks for longer periods.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Symptoms</h3>
+            <p class="govuk-body dwp-field__value">Symptoms present daily with no significant good or bad days.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Specialist inputs</h3>
+            <p class="govuk-body dwp-field__value">Under consultant follow-up. Receives weekly community rehabilitation physiotherapy.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Treatments</h3>
+            <p class="govuk-body dwp-field__value">Previously received speech and language therapy which finished approximately 3 months ago. Reports improvement in speech but little improvement in mobility.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Hospital stays</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports being admitted to hospital following her attendance at A&amp;E, remaining in hospital for approximately two weeks. She reports no overnight hospital stays since discharge.</p>
+          </div>
+ 
+          <div class="dwp-field" data-field-type="choice" data-field-options="Yes,No" data-controls="anxiety-field">
+            <h3 class="govuk-heading-s">Is this a mental health condition?</h3>
+            <p class="govuk-body dwp-field__value">Yes</p>
+          </div>
+ 
+          <div class="dwp-field" id="anxiety-field" data-show-when="Yes">
+            <h3 class="govuk-heading-s">Anxiety and depression</h3>
+            <p class="govuk-body dwp-field__value">Diagnosed by GP approximately 4 months ago. Reports feeling nervous when speaking to people due to concerns they may not understand her speech. Mood generally okay. Has had GP input only. Denies self-harm thoughts or suicidal ideation.</p>
+          </div>
+ 
+          <p class="govuk-body govuk-!-text-align-right dwp-group-actions"><a class="govuk-link dwp-view-transcript" href="#transcript" data-target="t-condition">View in transcription</a></p>
+ 
+        </div>
+ 
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+ 
+        {# ---------- Medication (single editable component) ---------- #}
+        <div class="dwp-editable-group" data-editable-group data-can-add="medication" data-add-label="Add another medication">
+ 
+          <div class="dwp-section-heading">
+            <h2 class="govuk-heading-l govuk-!-margin-bottom-0">Medication</h2>
+            <a class="govuk-link dwp-group-edit" href="#">Edit</a>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Medication summary</h3>
+            <p class="govuk-body dwp-field__value">The claimant takes one regular medication and reports it is effective. She reports some side effects from her medication but could not specify them. She does not receive any therapies at home.</p>
+          </div>
+ 
+          <div class="dwp-medication-list">
+            <div class="dwp-medication">
+              <div class="dwp-field">
+                <h3 class="govuk-heading-s">Medication name</h3>
+                <p class="govuk-body dwp-field__value">Clopidogrel</p>
+              </div>
+              <div class="dwp-field">
+                <h3 class="govuk-heading-s">Dosage and frequency</h3>
+                <p class="govuk-body dwp-field__value">75mg</p>
+              </div>
+              <div class="dwp-field">
+                <h3 class="govuk-heading-s">Reason for taking</h3>
+                <p class="govuk-body dwp-field__value">Blood thinner</p>
+              </div>
+              <div class="dwp-field">
+                <h3 class="govuk-heading-s">How effective is the medication?</h3>
+                <p class="govuk-body dwp-field__value">Effective</p>
+              </div>
+              <div class="dwp-field">
+                <h3 class="govuk-heading-s">Additional notes (optional)</h3>
+                <p class="govuk-body dwp-field__value"><span class="dwp-muted">Not added</span></p>
+              </div>
+            </div>
+          </div>
+ 
+          <div class="dwp-field" data-field-type="choice" data-field-options="Yes,No">
+            <h3 class="govuk-heading-s">Does the claimant experience side effects from any of their medication?</h3>
+            <p class="govuk-body dwp-field__value">Yes</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Side effects</h3>
+            <p class="govuk-body dwp-field__value">No</p>
+          </div>
+ 
+          <div class="dwp-field" data-field-type="choice" data-field-options="Yes,No">
+            <h3 class="govuk-heading-s">Does the claimant receive any home therapies?</h3>
+            <p class="govuk-body dwp-field__value">No</p>
+          </div>
+ 
+          <p class="govuk-body govuk-!-text-align-right dwp-group-actions"><a class="govuk-link dwp-view-transcript" href="#transcript" data-target="t-medication">View in transcription</a></p>
+ 
+        </div>
+ 
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+ 
+        {# ---------- Social and occupational history (single editable component) ---------- #}
+        <div class="dwp-editable-group" data-editable-group>
+ 
+          <div class="dwp-section-heading">
+            <h2 class="govuk-heading-l govuk-!-margin-bottom-0">Social and occupational history</h2>
+            <a class="govuk-link dwp-group-edit" href="#">Edit</a>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Type of home and living situation</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports living in a bungalow.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Caring responsibility</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports living with her husband and two children aged 18 and 15. She reports having three children in total, with one having moved out of the family home.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Aids, application and adaptations</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports receiving an occupational therapy assessment following her stroke. She reports being provided with a shower sling, grab rails around the bath, rails around the toilet, a toilet frame, a walking frame, a wheelchair, adapted cutlery and a non-slip mat for meals.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Working and education</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports previously working as a teacher. She reports being off work following her stroke and states she does not know when she may be able to return because of her ongoing symptoms. (This was discussed in the edited transcript.)</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Driving and getting around</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports she no longer drives. She reports the last time she drove was the day before her stroke. (Discussed in the edited transcript.)</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Shopping and housework</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports relying on others to complete tasks. She states she is dependent on people since the stroke. She reports difficulties because she can only use her right side.</p>
+            <p class="govuk-body dwp-field__value">The claimant reports weakness affecting the left arm and left leg. She reports having very little movement in the left side and describes ongoing fatigue.</p>
+            <p class="govuk-body dwp-field__value">The claimant reports going out with support from family. She reports being dependent on other people since her stroke. (Additional shopping detail comes from the edited transcript.)</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Hobbies and spare time</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports previously enjoying golf, badminton and attending the gym. She reports she no longer participates in these activities because of weakness affecting the left side of her body. She reports uncertainty about whether she will be able to return to these activities. She reports difficulties concentrating and finds reading challenging. She reports being able to follow television programmes only to some extent.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Additional socialising and occupational history</h3>
+            <p class="govuk-body dwp-field__value">The claimant reports reduced activity levels since the stroke. She reports spending most of her time at home.</p>
+          </div>
+ 
+          <p class="govuk-body govuk-!-text-align-right dwp-group-actions"><a class="govuk-link dwp-view-transcript" href="#transcript" data-target="t-social">View in transcription</a></p>
+ 
+        </div>
+ 
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+ 
+        {# ---------- Daily living (single editable component) ---------- #}
+        <div class="dwp-editable-group" data-editable-group>
+ 
+          <div class="dwp-section-heading">
+            <h2 class="govuk-heading-l govuk-!-margin-bottom-0">Daily living</h2>
+            <a class="govuk-link dwp-group-edit" href="#">Edit</a>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Preparing food</h3>
+            <p class="govuk-body dwp-field__value">No longer prepares or cooks meals. Husband completes all cooking. Cannot chop, peel or lift pans due to absent grip in left hand and reduced movement in left arm. Can occasionally stir food using right hand. Uses walking frame when standing. Unable to stand long enough to prepare a meal because of left leg weakness, poor balance and fatigue. Reports falls within the home since the stroke.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Taking nutrition</h3>
+            <p class="govuk-body dwp-field__value">Takes nutrition independently. Uses adapted cutlery, plate guard and non-slip mat following OT assessment. Unable to use standard cutlery effectively following stroke because of reduced grip and only one functional hand. No swallowing difficulties discussed.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Managing therapy</h3>
+            <p class="govuk-body dwp-field__value">Takes prescribed medication daily. Difficulty removing tablets from packaging because of absent grip in left hand. Husband manages medications and provides them when required. Receives physiotherapy at home once weekly for approximately 2 hours. Previously received speech and language therapy which finished approximately 3 months ago. Reports speech improved following therapy but mobility remains largely unchanged.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Washing and bathing</h3>
+            <p class="govuk-body dwp-field__value">Washes approximately every other day. Uses shower sling and grab rails. Unable to access the bath without adaptations. Able to wash chest and upper legs using right hand. Husband washes hair, lower body and feet. No falls in bath or shower reported.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Managing toilet needs</h3>
+            <p class="govuk-body dwp-field__value">Uses raised toilet seat, toilet frame and grab rails. Relies on rails and frame to transfer on and off the toilet. Able to clean herself using right hand. Reports falls in toilet area resulting in bruising. No continence aids discussed.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Dressing and undressing</h3>
+            <p class="govuk-body dwp-field__value">Requires assistance from husband and son. Unable to manage buttons or zips because of absent grip in left hand. Wears loose-fitting clothing. Difficulty dressing upper body because unable to raise left arm sufficiently. Difficulty dressing lower body because struggles to lift left leg into clothing. Reports dressing takes longer than before the stroke.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Communicating verbally</h3>
+            <p class="govuk-body dwp-field__value">Slurred speech following stroke. Previously received speech and language therapy. Reports speech improved but deteriorates after prolonged conversations. Speech difficulties occur a couple of times per day. Feels nervous speaking to people because she worries they may not understand her. No hearing difficulties reported.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Reading and understanding signs, symbols and words</h3>
+            <p class="govuk-body dwp-field__value">Reports poor concentration and short-term memory difficulties. Finds reading challenging and may reread the same line several times. Husband assisted with completing the PIP questionnaire. Can follow television programmes to some extent. No visual impairment or reading aids discussed.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Engaging face to face</h3>
+            <p class="govuk-body dwp-field__value">Mainly socialises with husband and children. Feels nervous when speaking to other people due to concerns about speech difficulties. Reports anxiety around being understood. Able to engage with healthcare professionals and attend appointments. No communication support discussed.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Budgeting</h3>
+            <p class="govuk-body dwp-field__value">Husband manages household finances and bills. Reports memory, concentration and confidence difficulties since the stroke. Would still be able to pay for items in a shop. No debt issues discussed.</p>
+          </div>
+ 
+          <p class="govuk-body govuk-!-text-align-right dwp-group-actions"><a class="govuk-link dwp-view-transcript" href="#transcript" data-target="t-daily">View in transcription</a></p>
+ 
+        </div>
+ 
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+ 
+        {# ---------- Mobility (single editable component) ---------- #}
+        <div class="dwp-editable-group" data-editable-group>
+ 
+          <div class="dwp-section-heading">
+            <h2 class="govuk-heading-l govuk-!-margin-bottom-0">Mobility</h2>
+            <a class="govuk-link dwp-group-edit" href="#">Edit</a>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Planning and following journeys</h3>
+            <p class="govuk-body dwp-field__value">Leaves the house approximately once per week. Attends appointments and shopping trips. Does not go out alone. Husband accompanies her when leaving the home. Reports reduced confidence since the stroke. Main difficulties relate to physical limitations rather than understanding routes. No difficulties with unfamiliar routes discussed.</p>
+          </div>
+ 
+          <div class="dwp-field">
+            <h3 class="govuk-heading-s">Moving around</h3>
+            <p class="govuk-body dwp-field__value">Very little movement in left leg. Reports leg feels heavy and has to be dragged when walking. Fatigues easily and needs to pace activities. Walks short distances indoors only, mainly between rooms. Uses walking frame indoors and wheelchair outdoors. Holds onto furniture when moving around the home. Reports falls since the stroke, mainly within the home and around the toilet area. Some falls resulted in bruising. Moves slowly and only mobilises when necessary. Uses wheelchair when attending appointments and shopping. Relies on support from husband and family following the stroke.</p>
+          </div>
+ 
+          <p class="govuk-body govuk-!-text-align-right dwp-group-actions"><a class="govuk-link dwp-view-transcript" href="#transcript" data-target="t-mobility">View in transcription</a></p>
+ 
+        </div>
+ 
+      </div>
+ 
+      {# ============ TRANSCRIPT TAB ============ #}
+      <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="transcript">
+        <h2 class="govuk-heading-l">Transcript</h2>
+        <p class="govuk-body-s govuk-!-margin-bottom-6">Automated transcript of the assessment call. Sample data for demonstration only.</p>
+ 
+        <div class="dwp-transcript">
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">00:00</span></p>
+            <p class="govuk-body">Good morning, thank you for taking the call. I'll ask you some questions about how your health affects your daily life. The call is being recorded. Is that all right?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">00:12</span></p>
+            <p class="govuk-body">Yes, that's fine.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">00:18</span></p>
+            <p class="govuk-body">Can you tell me what conditions you're dealing with at the moment?</p>
+          </div>
+          <div class="dwp-transcript__turn" id="t-condition">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">00:24</span></p>
+            <p class="govuk-body">I had a stroke about six months ago. I went to A&amp;E with weakness down my left side and my speech was slurred. They admitted me and I was in hospital for about two weeks. I've not had any overnight stays since I came home.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">00:45</span></p>
+            <p class="govuk-body">How do your symptoms change from day to day?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">00:52</span></p>
+            <p class="govuk-body">They're pretty much the same every day. The fatigue is there all day, every day, and my memory problems don't go away. I don't really get good days or bad days, it's constant. My speech gets harder when I've been talking for a while.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">01:18</span></p>
+            <p class="govuk-body">Are you under any specialists, and what treatment have you had?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">01:25</span></p>
+            <p class="govuk-body">I'm under a consultant for follow-up and I get community rehabilitation physiotherapy once a week. I had speech and language therapy that finished about three months ago. My speech improved with it, but my mobility hasn't really got better.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">01:50</span></p>
+            <p class="govuk-body">Do you take any medication?</p>
+          </div>
+          <div class="dwp-transcript__turn" id="t-medication">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">01:55</span></p>
+            <p class="govuk-body">I take clopidogrel, 75 milligrams. It's a blood thinner. It works fine. I think my medication does give me some side effects, but nothing I could really put my finger on. I don't get any therapies at home like oxygen or anything like that.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">02:20</span></p>
+            <p class="govuk-body">Do you have any mental health conditions?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">02:26</span></p>
+            <p class="govuk-body">Yes, my GP diagnosed me with anxiety and depression about four months ago. I feel nervous speaking to people because I worry they won't understand my speech. My mood is generally okay. It's only been the GP involved. I don't have any thoughts of harming myself.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">02:55</span></p>
+            <p class="govuk-body">Tell me about where you live and who's at home with you.</p>
+          </div>
+          <div class="dwp-transcript__turn" id="t-social">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">03:01</span></p>
+            <p class="govuk-body">I live in a bungalow with my husband and two of my children, they're 18 and 15. I've got three children in total, one has moved out. After the stroke I had an occupational therapy assessment and they gave me a shower sling, grab rails around the bath, rails around the toilet, a toilet frame, a walking frame, a wheelchair, adapted cutlery and a non-slip mat for meals.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">03:35</span></p>
+            <p class="govuk-body">Were you working before, and do you still drive?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">03:41</span></p>
+            <p class="govuk-body">I was a teacher. I've been off work since the stroke and I don't know when I'll be able to go back because of my symptoms. I don't drive any more, the last time was the day before my stroke.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">04:05</span></p>
+            <p class="govuk-body">How do you manage shopping and housework, and what about hobbies?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">04:12</span></p>
+            <p class="govuk-body">I rely on other people for everything now, I can only use my right side. My left arm and leg are very weak, hardly any movement, and I'm tired all the time. I go out with support from my family. I used to play golf, badminton and go to the gym, but I can't do any of that because of the weakness on my left side. I'm not sure if I'll get back to it. I find it hard to concentrate and reading is difficult. I can only follow the television to some extent. I don't do much now, I spend most of my time at home.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">04:55</span></p>
+            <p class="govuk-body">Let's talk about daily living. How do you manage preparing food and eating?</p>
+          </div>
+          <div class="dwp-transcript__turn" id="t-daily">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">05:03</span></p>
+            <p class="govuk-body">I don't cook any more, my husband does all of it. I can't chop, peel or lift pans because I've no grip in my left hand and my arm doesn't move well. I can stir something with my right hand sometimes. I use my walking frame when I'm standing. I can't stand long enough to make a meal, my leg's weak, my balance is off and I get tired. I've had falls at home. I can eat on my own though, using adapted cutlery, a plate guard and a non-slip mat from the OT. I couldn't manage normal cutlery with one working hand. No trouble swallowing.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">05:45</span></p>
+            <p class="govuk-body">And managing your medication and therapy?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">05:50</span></p>
+            <p class="govuk-body">I take my tablets every day but I struggle to get them out of the packet with my left hand, so my husband sorts my medication for me. My physio comes to the house once a week for about two hours. I had the speech therapy that finished about three months ago, my speech got better but my walking's about the same.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">06:20</span></p>
+            <p class="govuk-body">How do you manage washing, using the toilet and getting dressed?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">06:28</span></p>
+            <p class="govuk-body">I wash about every other day using a shower sling and grab rails. I can't get in the bath without the adaptations. I can wash my chest and the top of my legs with my right hand, my husband does my hair, lower body and feet. No falls in the shower. For the toilet I've a raised seat, a frame and grab rails, and I use them to get on and off. I can clean myself with my right hand. I have fallen in there and bruised myself. No continence aids. For dressing, my husband and son help me. I can't do buttons or zips with no grip in my left hand, so I wear loose clothing. I can't lift my left arm enough to dress my top half, and I struggle to get my left leg into things. It takes much longer than before.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">07:20</span></p>
+            <p class="govuk-body">How is your communication, reading and dealing with people?</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">07:28</span></p>
+            <p class="govuk-body">My speech is slurred since the stroke. I had speech therapy and it's better, but it gets worse after I've been talking a while, a couple of times a day. I get nervous talking to people in case they don't understand me. My hearing is fine. My concentration and short-term memory are poor, I find reading hard and read the same line over and over. My husband helped me fill in the PIP form. I can follow the television to some extent. My eyesight's fine, no reading aids. I mostly see my husband and children, I'm nervous with other people because of my speech, but I can talk to doctors and go to appointments. My husband handles the money and bills. My memory, concentration and confidence aren't great since the stroke, but I could still pay for something in a shop. No debt problems.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">08:25</span></p>
+            <p class="govuk-body">Finally, how do you get around and plan journeys?</p>
+          </div>
+          <div class="dwp-transcript__turn" id="t-mobility">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">08:32</span></p>
+            <p class="govuk-body">I get out about once a week for appointments and shopping. I don't go out on my own, my husband comes with me. I've lost confidence since the stroke, but it's more the physical side than getting lost, I'm fine with routes. There's very little movement in my left leg, it feels heavy and I drag it. I tire easily and have to pace myself. I only walk short distances indoors, room to room, using a walking frame inside and a wheelchair outside, and I hold onto the furniture. I've fallen since the stroke, mostly at home and near the toilet, and bruised myself. I move slowly and only when I have to. I use the wheelchair for appointments and shopping. I rely on my husband and family.</p>
+          </div>
+ 
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Assessor <span class="dwp-transcript__time">09:20</span></p>
+            <p class="govuk-body">Thank you, that's everything I need for today.</p>
+          </div>
+          <div class="dwp-transcript__turn">
+            <p class="dwp-transcript__speaker">Claimant <span class="dwp-transcript__time">09:25</span></p>
+            <p class="govuk-body">Thank you.</p>
+          </div>
+ 
+        </div>
+      </div>
+ 
+    </div>
+ 
+  </div>
+</div>
+{% endblock %}
+ 
+{% block footer %}
+  {{ dwpFooter({
+    meta: {
+      visuallyHiddenTitle: "About this website",
+      items: [
+        { href: "#", text: "Accessibility statement" },
+        { href: "#", text: "AI notice" },
+        { href: "/manage-prototype/clear-data", text: "Clear data" }
+      ]
+    }
+  }) }}
+{% endblock %}

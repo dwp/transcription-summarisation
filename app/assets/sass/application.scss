@@ -136,3 +136,34 @@
     max-width: 40em;
   }
 }
+
+// Additions for the Transcription and summary service prototype
+// APPEND these to app/assets/sass/application.scss, below the line
+// that imports govuk-frontend. Do NOT replace the file: your existing
+// styles (the edit fields, transcript, section headings and so on)
+// must stay.
+// ============================================================
+ 
+// ---- Assessments table: highlighted row + first-column spacing ----
+// Needs the class "app-assessments-table" on the table (already in the
+// assessments page below).
+.app-assessments-table .govuk-table__header:first-child,
+.app-assessments-table .govuk-table__cell:first-child {
+  padding-left: govuk-spacing(3);
+}
+ 
+.app-table__row--highlight td {
+  background-color: govuk-tint(govuk-colour("blue"), 80%);
+}
+ 
+.app-table__row--highlight td:first-child {
+  box-shadow: inset 4px 0 0 0 govuk-colour("blue");
+}
+ 
+// ---- Save-success banner spacing (Review draft report) ----
+// The banner itself uses the built-in GOV.UK notification banner styles;
+// this just gives it room above and below the section it confirms.
+.dwp-save-banner {
+  margin-top: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
+}
