@@ -2,7 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: transcription-summarisation
-  title: Transcription and summary service
+  title: Transcription and Summary Service
   description: |
     A blank prototype to use for testing things.
 
