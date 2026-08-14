@@ -1,0 +1,103 @@
+{# Journey 2 compare-and-choose for ONE activity.
+   The page that includes this sets:
+     compareActivity — which activity to compare
+     compareLayout   — "side-by-side" or "stacked"
+   Both UIs are identical in content and behaviour and differ only in how the
+   two panes are arranged, so a test compares the arrangement, nothing else. #}
+
+{% set fhActivities = {
+  "preparing-food": { sub: "Preparing food",
+    ai: "She does not usually prepare or cook meals. Her brother prepares meals and asks her to help. She sometimes helps her brother, such as peeling potatoes, but tries to avoid it.\n\nWhen her brother is not there, she can heat soup using the cooker or microwave.\n\nShe does not feel motivated to cook and described feeling low." },
+  "taking-nutrition": { sub: "Taking nutrition",
+    ai: "She does not eat much and has lost a lot of weight. She does not usually feel hungry and does not feel motivated to eat.\n\nHer brother encourages her to eat more and have balanced food regularly. When her brother is not there, she may eat soup or crisps.\n\nShe told her doctor about her weight loss, but they did not say they would refer her anywhere." },
+  "managing-therapy": { sub: "Managing therapy",
+    ai: "She sometimes forgets to take her medication. Her brother phones her and tells her to take it and checks that she has.\n\nShe has missed medication several times. The last time was a couple of weeks ago. She can miss medication a few times a week if her brother does not tell her to take it." }
+} %}
+
+{% set activity = fhActivities[compareActivity] %}
+{% set note = data['j2-notes-' + compareActivity] %}
+
+<h1 class="govuk-heading-l has-page-heading">{{ activity.sub }} &mdash; compare and choose</h1>
+
+<p class="has-intro">Your notes from the call and the AI summary, side by side. The report text at the bottom starts as the AI draft and is yours to change.</p>
+
+<div class="j2-compare j2-compare--{{ compareLayout }}">
+  <div class="j2-pane j2-pane--notes">
+    <div class="j2-pane__header">
+      <strong class="govuk-tag govuk-tag--grey j2-pane__tag">Your call notes</strong>
+      <span class="j2-pane__label">reference</span>
+      <a class="govuk-link j2-pane__copy" href="#" data-copy-from="notes-pane">Copy all</a>
+    </div>
+    <div class="j2-pane__body" id="notes-pane">{% if note %}{{ note }}{% else %}You did not take notes for this activity during the call.{% endif %}</div>
+  </div>
+
+  <div class="j2-pane j2-pane--ai">
+    <div class="j2-pane__header">
+      <strong class="govuk-tag govuk-tag--blue j2-pane__tag">AI summary</strong>
+      <a class="govuk-link j2-pane__copy" href="#" data-copy-from="ai-pane">Copy all</a>
+    </div>
+    <div class="j2-pane__body" id="ai-pane">{{ activity.ai }}</div>
+  </div>
+</div>
+
+<div class="j2-compare__combine">
+  <button class="govuk-button govuk-button--secondary" data-module="govuk-button" data-combine>Combine both</button>
+  <span class="j2-compare__hint">Puts your wording first and adds what only the AI heard.</span>
+</div>
+
+<h2 class="govuk-heading-m">Report text for {{ activity.sub | lower }}</h2>
+<p class="has-intro">Starts as the AI draft. Everything below is editable, and saving updates the report.</p>
+
+<form method="post" action="/journey-2/save-compare">
+  <input type="hidden" name="activity-id" value="{{ compareActivity }}">
+  <input type="hidden" name="section-text" data-report-input>
+
+  <div class="j2-report-box">
+    <div class="j2-report-box__text" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Report text for {{ activity.sub }}" data-report-text>{{ data['j2-report-' + compareActivity] or activity.ai }}</div>
+  </div>
+
+  <p class="has-footnote">Built from your choices above. Fully editable. Saving updates the report.</p>
+
+  <button class="govuk-button" data-module="govuk-button">Return to draft report</button>
+</form>
+
+<script>
+  (function () {
+    var dest = document.querySelector('[data-report-text]')
+    if (!dest) return
+
+    document.querySelectorAll('[data-copy-from]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault()
+        var source = document.getElementById(link.getAttribute('data-copy-from'))
+        if (source) dest.innerText = source.innerText
+      })
+    })
+
+    var combine = document.querySelector('[data-combine]')
+    if (combine) {
+      combine.addEventListener('click', function (e) {
+        e.preventDefault()
+        var notes = document.getElementById('notes-pane')
+        var ai = document.getElementById('ai-pane')
+        if (!notes || !ai) return
+        // Keep the HCP's wording first, then add any AI sentence that isn't
+        // already covered by something they wrote.
+        var noteText = notes.innerText.trim()
+        var written = noteText.toLowerCase()
+        var extra = ai.innerText.split(/(?<=\.)\s+/).filter(function (sentence) {
+          var key = sentence.trim().toLowerCase().slice(0, 25)
+          return key.length > 0 && written.indexOf(key) === -1
+        })
+        dest.innerText = (noteText ? noteText + '\n\n' : '') + extra.join(' ').trim()
+      })
+    }
+
+    var form = document.querySelector('form[action="/journey-2/save-compare"]')
+    if (form) {
+      form.addEventListener('submit', function () {
+        form.querySelector('[data-report-input]').value = dest.innerText
+      })
+    }
+  })()
+</script>

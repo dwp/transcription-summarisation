@@ -1,0 +1,70 @@
+{% extends "layouts/has.html" %}
+
+{% set pageName = "View transcript" %}
+{% set stripState = "ended" %}
+{% set pageNoNav = true %}
+
+{# The mock assessment conversation. Edit the transcript here, in one place.
+   Speakers are labelled by role only, never by name. #}
+{% set transcript = [
+  { time: "00:12", role: "HCP", text: "Thank you for waiting. Just to confirm before we start, you are happy for me to record the call and for it to be written up?" },
+  { time: "00:18", role: "Claimant", text: "Yes, that's fine." },
+  { time: "00:24", role: "HCP", text: "I would like to ask about how you manage day to day. Can we start with preparing food? Do you cook for yourself?" },
+  { time: "00:33", role: "Claimant", text: "Not usually, no. My brother does most of it." },
+  { time: "00:38", role: "HCP", text: "Does he live with you?" },
+  { time: "00:41", role: "Claimant", text: "He comes round most days. He'll make a meal and he asks me to help him with it." },
+  { time: "00:52", role: "HCP", text: "And do you help?" },
+  { time: "00:55", role: "Claimant", text: "Sometimes. He'll have me peeling potatoes, something like that. If I'm honest I try to get out of it." },
+  { time: "01:06", role: "HCP", text: "What happens on the days he isn't there?" },
+  { time: "01:11", role: "Claimant", text: "I can heat a soup up. I use the cooker or the microwave, whichever." },
+  { time: "01:20", role: "HCP", text: "Is there anything that stops you making a full meal on those days?" },
+  { time: "01:27", role: "Claimant", text: "I just don't feel like it. I've been feeling quite low, so I can't be bothered with it." },
+  { time: "01:38", role: "HCP", text: "Thank you, that's helpful. Can I ask about eating and drinking? How is your appetite?" },
+  { time: "01:47", role: "Claimant", text: "I don't eat much. I've lost a lot of weight." },
+  { time: "01:52", role: "HCP", text: "Do you know roughly how much?" },
+  { time: "01:56", role: "Claimant", text: "A fair bit. My clothes don't fit me any more." },
+  { time: "02:03", role: "HCP", text: "Is that because you're not feeling hungry, or is there something else going on?" },
+  { time: "02:09", role: "Claimant", text: "I don't feel hungry, and I can't get motivated to eat." },
+  { time: "02:17", role: "HCP", text: "Does anyone help you with that?" },
+  { time: "02:20", role: "Claimant", text: "My brother does. He tells me I need to eat more and have proper balanced food, regular like." },
+  { time: "02:31", role: "HCP", text: "And when he isn't there?" },
+  { time: "02:34", role: "Claimant", text: "I might have a soup. Or crisps." },
+  { time: "02:40", role: "HCP", text: "Have you spoken to your doctor about the weight loss?" },
+  { time: "02:46", role: "Claimant", text: "I told them, yes. They didn't say anything about referring me anywhere." },
+  { time: "02:55", role: "HCP", text: "Thank you. Can I ask about your medication now? Do you manage taking it yourself?" },
+  { time: "03:04", role: "Claimant", text: "I forget it sometimes." },
+  { time: "03:08", role: "HCP", text: "How does that usually get sorted out?" },
+  { time: "03:12", role: "Claimant", text: "My brother rings me and tells me to take it. He checks that I have." },
+  { time: "03:20", role: "HCP", text: "Have there been times you have missed it altogether?" },
+  { time: "03:26", role: "Claimant", text: "A few times, yes. The last one was a couple of weeks ago." },
+  { time: "03:34", role: "HCP", text: "If your brother didn't remind you, how often do you think you would miss it?" },
+  { time: "03:41", role: "Claimant", text: "A few times a week, probably." },
+  { time: "03:48", role: "HCP", text: "Thank you, that's really helpful. I have what I need on those areas." }
+] %}
+
+{% block content %}
+  <a class="govuk-back-link" href="/transcription/review-draft-report">Back to the draft report</a>
+
+  <h1 class="govuk-heading-l has-page-heading">View transcript</h1>
+
+  <p class="has-transcript-meta">Recorded length {{ data['call-length'] or '03:52' }}</p>
+
+  <div class="has-report-inset">
+    <p class="has-report-inset__lead">This transcript was created automatically from the call recording.</p>
+    <p class="has-report-inset__body">Speakers are shown by their role, not their name. The transcript may contain mistakes, so check it against the recording before you rely on it.</p>
+  </div>
+
+  <div class="has-transcript">
+    {% for turn in transcript %}
+      <div class="has-transcript__turn">
+        <span class="has-transcript__time">{{ turn.time }}</span>
+        <span class="has-transcript__speaker">
+          <span class="has-transcript__tag has-transcript__tag--{{ turn.role | lower }}">{{ turn.role }}</span>
+        </span>
+        <span class="has-transcript__text">{{ turn.text }}</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  <a href="/transcription/review-draft-report" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Back to the draft report</a>
+{% endblock %}

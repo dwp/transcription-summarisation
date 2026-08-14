@@ -1,0 +1,39 @@
+{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+
+{# Lets the stylesheet take HAS pages full width on any govuk-frontend version #}
+{% set bodyClasses = "has-app" %}
+
+{% block pageTitle %}{{ pageName }} – Health Assessment Service{% endblock %}
+
+{% block header %}
+  <header class="has-header" role="banner">
+    <div class="has-container">
+      <div class="has-header__service">Health Assessment Service</div>
+      <nav class="has-header__nav" aria-label="Account">
+        <a class="has-header__link" href="/">Home</a>
+        <a class="has-header__link" href="#">Logout</a>
+      </nav>
+    </div>
+  </header>
+  <div class="has-claimant-banner">
+    <div class="has-container">
+      <div class="has-claimant-banner__name">John Smith <span class="has-claimant-banner__nino">RN 00 01 23 A</span></div>
+      <div class="has-claimant-banner__details">Date of birth: 31 December 1999 <span class="has-claimant-banner__detail">Postcode: N2 1XX</span></div>
+    </div>
+  </div>
+{% endblock %}
+
+{# The main block exists in govuk-frontend v5 and v6, so this works on both.
+   On v6 the surrounding govuk-width-container is neutralised by the
+   .has-app styles in application.scss so the page runs full width. #}
+{% block main %}
+  {% include "includes/has-recording-strip.html" %}
+  <div class="has-shell">
+    {% if not pageNoNav %}{% include "includes/has-side-nav.html" %}{% endif %}
+    <main class="has-content{% if pageNoNav %} has-content--full{% endif %}" id="main-content" role="main">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

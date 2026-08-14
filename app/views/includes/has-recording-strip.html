@@ -1,0 +1,96 @@
+{# Call state strip.
+   A page can force a state with {% set stripState = "ended" %}.
+   Otherwise the strip reads the call state saved in session data when the
+   HCP ends the call, so every page agrees about whether the call is live. #}
+{% set callState = stripState or data['call-state'] %}
+{% set endCallAction = endCallAction or "/transcription/end-call" %}
+{% set summaryHref = summaryHref or "/transcription/review-draft-report" %}
+{% set transcriptHref = transcriptHref or "/transcription/call-transcript" %}
+
+{% if callState == "ended" %}
+<div class="has-recording-strip has-recording-strip--ended" role="region" aria-label="Call recording status">
+  <div class="has-container has-recording-strip__inner">
+  <div class="has-recording-strip__status">
+    <strong class="has-recording-strip__tag has-recording-strip__tag--ended">Call ended</strong>
+    <span class="has-recording-strip__meta">Recorded length {{ data['call-length'] or '03:52' }}</span>
+  </div>
+  <div class="has-recording-strip__actions">
+    <a class="govuk-link has-recording-strip__action" href="{{ transcriptHref }}">View transcript</a>
+    <a class="govuk-link has-recording-strip__action" href="{{ summaryHref }}">Draft summary</a>
+  </div>
+  </div>
+</div>
+{% else %}
+<div class="has-recording-strip" role="region" aria-label="Call recording status">
+  <div class="has-container has-recording-strip__inner">
+  <div class="has-recording-strip__status">
+    <span class="has-recording-strip__dot" aria-hidden="true"></span>
+    <strong class="has-recording-strip__tag">Recording</strong>
+    <span class="has-recording-strip__meta">Transcription running &middot; <span class="has-recording-strip__timer">00:00</span></span>
+  </div>
+  <div class="has-recording-strip__actions">
+    <a class="govuk-link has-recording-strip__action" href="{{ transcriptHref }}">View transcript</a>
+    <a class="govuk-link has-recording-strip__action" href="#">Pause</a>
+    <a class="govuk-link has-recording-strip__action" href="#" data-end-call>End call</a>
+  </div>
+  </div>
+</div>
+
+{# Native <dialog> gives us the accessible behaviour GDS asks for without a
+   library: focus is trapped while open, Escape closes it, and focus returns
+   to the End call link afterwards. #}
+<dialog class="has-modal" id="has-end-call-modal" aria-labelledby="has-end-call-modal-title">
+  <h2 class="govuk-heading-m" id="has-end-call-modal-title">Would you like to end the call?</h2>
+
+  <div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+      <span class="govuk-visually-hidden">Warning</span>
+      You cannot restart the recording once the call has ended.
+    </strong>
+  </div>
+
+  <p class="govuk-body">Your transcript will be generated, and an AI summary of each section will be prepared for you to review.</p>
+
+  <form method="post" action="{{ endCallAction }}">
+    <input type="hidden" name="call-state" value="ended">
+    <input type="hidden" name="call-length" value="00:00" data-call-length>
+    <div class="govuk-button-group">
+      <button class="govuk-button" data-module="govuk-button">Yes, end the call</button>
+      <button type="button" class="govuk-button govuk-button--secondary" data-module="govuk-button" data-close-modal>No, continue with the call</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  (function () {
+    var timer = document.querySelector('.has-recording-strip__timer')
+    if (timer) {
+      var parts = timer.textContent.trim().split(':')
+      var seconds = (parseInt(parts[0], 10) * 60) + parseInt(parts[1], 10)
+      setInterval(function () {
+        seconds += 1
+        var m = String(Math.floor(seconds / 60))
+        var s = String(seconds % 60)
+        if (m.length < 2) m = '0' + m
+        if (s.length < 2) s = '0' + s
+        timer.textContent = m + ':' + s
+        var lengthField = document.querySelector('[data-call-length]')
+        if (lengthField) lengthField.value = timer.textContent
+      }, 1000)
+    }
+
+    var modal = document.getElementById('has-end-call-modal')
+    var endCall = document.querySelector('[data-end-call]')
+    if (!modal || !endCall || !modal.showModal) return
+
+    endCall.addEventListener('click', function (e) {
+      e.preventDefault()
+      modal.showModal()
+    })
+    modal.querySelectorAll('[data-close-modal]').forEach(function (btn) {
+      btn.addEventListener('click', function () { modal.close() })
+    })
+  })()
+</script>
+{% endif %}

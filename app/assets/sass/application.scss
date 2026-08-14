@@ -1,169 +1,757 @@
 //
 // For guidance on how to add CSS and SCSS see:
 // https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
-// 
-
-// if installed as a plugin packagefind node_modules -path '*internal-service*' -name '*.scss'
 //
-
-// For guidance on how to add CSS and SCSS see:
-
-// https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
-
-// 
 
 // Add extra styles here
 
-// Section heading with a right-aligned "Change" link
+// ===========================================================================
+// Health Assessment Service (HAS) chrome
+// ===========================================================================
 
-.dwp-section-heading {
+// On govuk-frontend v6 the page template wraps content in a centred
+// govuk-width-container. HAS pages (body class has-app, set by the HAS
+// layout) run full width instead. Harmless on v5, which has no wrapper
+// once the layout overrides the main block.
 
+.has-app .govuk-width-container {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+// Centred column used by the header, banner, strip and page shell so all
+// chrome content lines up with the page content (backgrounds stay full width)
+
+.has-container {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+// --- Top service header (black bar) ---
+
+.has-header {
+  background: #0b0c0c; // GOV.UK black
+  padding: 12px 0;
+}
+
+.has-header__service {
+  @include govuk-font($size: 19, $weight: bold);
+  color: #ffffff;
+}
+
+.has-header__nav {
+  margin-top: 6px;
+}
+
+.has-header__link {
+  @include govuk-font($size: 16);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.1578em;
+  margin-right: 20px;
+
+  &:link,
+  &:visited {
+    color: #ffffff;
+  }
+
+  &:hover {
+    text-decoration-thickness: 3px;
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+  }
+}
+
+// --- Claimant banner (blue bar) ---
+
+.has-claimant-banner {
+  background: #3778bc;
+  color: #ffffff;
+  padding: 12px 0 14px;
+}
+
+.has-claimant-banner__name {
+  @include govuk-font($size: 24, $weight: bold);
+}
+
+.has-claimant-banner__nino {
+  margin-left: 10px;
+}
+
+.has-claimant-banner__details {
+  @include govuk-font($size: 16);
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.has-claimant-banner__detail {
+  margin-left: 20px;
+}
+
+// --- Recording strip ---
+
+.has-recording-strip {
+  background: #f3f2f1; // GOV.UK light grey
+  border-left: 5px solid #00703c; // GOV.UK green
+  padding: 10px 0;
+}
+
+.has-recording-strip__inner {
   display: flex;
-
+  align-items: center;
   justify-content: space-between;
-
-  align-items: baseline;
-
-  gap: 16px;
-
-  margin-bottom: 20px;
-
+  flex-wrap: wrap;
 }
 
-// Condition history as a single editable component.
-
-// Each field is a heading sitting directly on its paragraph (no gap),
-
-// with items spaced from each other. Editing swaps every field's value
-
-// for a textarea at once, with one Save/Cancel bar for the whole section.
-
-.dwp-editable-group {
-
-  margin-bottom: 24px;
-
+.has-recording-strip__status {
+  display: flex;
+  align-items: center;
 }
 
-.dwp-field {
+.has-recording-strip__dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d4351c; // GOV.UK red
+  margin-right: 10px;
+}
 
-  margin-bottom: 20px;
+.has-recording-strip__tag {
+  @include govuk-font($size: 16, $weight: bold);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #005a30;
+  background: #cce2d8;
+  padding: 2px 8px;
+  margin-right: 12px;
+}
 
-  h3 {
+.has-recording-strip__meta {
+  @include govuk-font($size: 16);
+  color: #505a5f; // GOV.UK secondary text
+}
 
-    margin-bottom: 0;
+.has-recording-strip__action {
+  @include govuk-font($size: 16);
+  margin-left: 15px;
+}
 
-  }
+// --- Page shell: side nav + content ---
 
-  &__value {
+.has-shell {
+  display: flex;
+  gap: 40px;
+  padding: 0 30px;
+  max-width: 950px; // side nav 190 + gap 40 + content 720, so the block truly centres
+  margin: 0 auto;
+}
 
+.has-content {
+  flex: 1;
+  max-width: 720px;
+  padding: 25px 0 60px;
+}
+
+// --- Side navigation ---
+
+.has-side-nav {
+  width: 190px;
+  flex-shrink: 0;
+  padding-top: 25px;
+}
+
+.has-side-nav__group {
+  @include govuk-font($size: 19, $weight: bold);
+  font-size: 20px;
+  margin: 15px 0 5px;
+
+  &:first-child {
     margin-top: 0;
-
-    margin-bottom: 0;
-
-    white-space: pre-line;
-
-  }
-
-  &__editor {
-    margin-top: 8px;
-    margin-bottom: 0;
-    max-width: 40em;
   }
 }
 
-.dwp-group-editbar {
-  margin-top: 16px;
-  margin-bottom: 0;
-
+.has-side-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-// Muted placeholder for empty (optional or not-yet-added) values
-.dwp-muted {
+.has-side-nav__item {
+  margin: 0;
+}
+
+.has-side-nav__link {
+  @include govuk-font($size: 16);
+  display: block;
+  padding: 3px 8px;
+  text-decoration: none;
+
+  &:link,
+  &:visited {
+    color: #1d70b8; // GOV.UK link blue, visited included
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+  }
+}
+
+.has-side-nav__item--current .has-side-nav__link {
+  color: #0b0c0c;
+  font-weight: bold;
+  background: #f3f2f1; // GOV.UK light grey
+  border-left: 4px solid #1d70b8; // GOV.UK blue
+  padding-left: 4px;
+}
+
+// --- Functional history notes page ---
+
+.has-page-heading {
+  margin-bottom: 15px;
+}
+
+.has-intro {
+  @include govuk-font($size: 16);
+  color: #505a5f; // GOV.UK secondary text
+  max-width: 640px;
+  margin-bottom: 10px;
+}
+
+.has-activity-group {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.has-activity {
+  margin-bottom: 40px;
+}
+
+.has-notes-box {
+  min-height: 110px;
+}
+
+.has-footnote {
+  @include govuk-font($size: 16);
+  color: #505a5f; // GOV.UK secondary text
+  margin-top: 30px;
+}
+
+// --- Call ended strip variant ---
+
+.has-recording-strip--ended {
+  border-left: 5px solid #505a5f; // GOV.UK secondary text grey
+}
+
+.has-recording-strip__tag--ended {
+  color: #0b0c0c;
+  background: #dbdad9;
+}
+
+// --- Review the draft report page ---
+
+.has-content--full {
+  max-width: none;
+}
+
+.has-report-inset {
+  background: #f3f2f1; // GOV.UK light grey
+  border-left: 5px solid #505a5f;
+  padding: 15px 20px;
+  margin-bottom: 30px;
+}
+
+.has-report-inset__lead {
+  @include govuk-font($size: 16, $weight: bold);
+  margin: 0 0 5px;
+}
+
+.has-report-inset__body {
+  @include govuk-font($size: 16);
+  margin: 0;
+}
+
+.has-report-group {
+  @include govuk-font($size: 24, $weight: bold);
+  margin: 30px 0 10px;
+}
+
+.has-report-group--major {
+  @include govuk-font($size: 27, $weight: bold);
+  margin-top: 50px;
+}
+
+.has-report-activity {
+  @include govuk-font($size: 19, $weight: bold);
+  font-size: 20px;
+  margin: 30px 0 5px;
+}
+
+.has-report-row {
+  border-bottom: 1px solid #b1b4b6; // GOV.UK mid grey
+  padding: 15px 0 20px;
+  margin: 0;
+}
+
+.has-report-row__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.has-report-row__title {
+  @include govuk-font($size: 16, $weight: bold);
+  margin: 0;
+}
+
+.has-report-row__title--question {
+  margin-bottom: 30px;
+}
+
+.has-report-row__change {
+  @include govuk-font($size: 16);
+  flex-shrink: 0;
+}
+
+.has-report-row__value {
+  @include govuk-font($size: 16);
+  margin: 10px 0 0;
+  max-width: 720px;
+}
+
+.has-report-row__value--stacked {
+  margin-top: 15px;
+}
+
+.has-report-sub {
+  font-weight: normal;
+  color: #0b0c0c;
+}
+
+.has-report-row__value--empty {
   color: #505a5f;
-
 }
 
-// A single medication within the Medication component
-.dwp-medication {
-  margin-bottom: 24px;
-  padding-top: 4px;
-  & + .dwp-medication {
-
-    border-top: 1px solid #b1b4b6;
-    padding-top: 20px;
-
-  }
-
+.has-report-row__value--pending {
+  min-height: 30px;
+  margin: 0;
 }
 
-.dwp-add-btn {
-  margin-bottom: 24px;
+// --- Your call notes (report page) ---
 
+.has-call-notes {
+  margin: 15px 0 0;
 }
 
-// Assessment call transcript
+.has-call-notes__summary {
+  @include govuk-font($size: 16);
+  color: #1d70b8; // GOV.UK link blue
+  text-decoration: underline;
+  cursor: pointer;
+}
 
-.dwp-transcript {
-  &__turn {
-    margin-bottom: 16px;
-    padding: 8px 12px;
-    margin-left: -12px;
-    border-left: 4px solid transparent;
-    border-radius: 4px;
-    transition: background-color 0.4s ease, border-color 0.4s ease;
-    &--highlight {
+.has-call-notes__text {
+  @include govuk-font($size: 16);
+  border-left: 4px solid #b1b4b6;
+  padding: 10px 15px;
+  margin-top: 10px;
+  color: #0b0c0c;
+  white-space: pre-wrap;
+}
 
-      background-color: #fff2cc;
-      border-left-color: #b67a1a;
+.has-call-notes__none {
+  @include govuk-font($size: 16);
+  color: #505a5f;
+  margin: 15px 0 0;
+}
 
-    }
+.has-report-print {
+  margin: 40px 0 20px;
+}
 
+// --- Inline editing on the report page (click in, edit, autosave) ---
+
+.has-editable {
+  cursor: text;
+  padding: 5px 8px;
+  margin-left: -8px;
+  white-space: pre-wrap;
+  min-height: 30px;
+
+  &:hover {
+    background: #f3f2f1; // GOV.UK light grey
   }
-  &__speaker {
-    font-weight: 700;
-    margin-bottom: 2px;
+
+  &:focus {
+    outline: 3px solid #ffdd00; // GOV.UK focus yellow
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 2px #0b0c0c;
+    background: #ffffff;
   }
+}
 
-  &__time {
-    font-weight: 400;
-    color: #505a5f;
-    margin-left: 8px;
+// --- Group level My notes dropdown (Daily living / Mobility) ---
 
-  }
+.has-call-notes--group {
+  margin: 5px 0 25px;
+}
 
-  p.govuk-body {
+.has-call-notes__panel {
+  border-left: 4px solid #b1b4b6; // GOV.UK mid grey
+  padding: 10px 15px;
+  margin-top: 10px;
+}
+
+.has-call-notes__item {
+  @include govuk-font($size: 16);
+  margin: 0 0 15px;
+
+  &:last-child {
     margin-bottom: 0;
-    max-width: 40em;
   }
 }
 
-// Additions for the Transcription and summary service prototype
-// APPEND these to app/assets/sass/application.scss, below the line
-// that imports govuk-frontend. Do NOT replace the file: your existing
-// styles (the edit fields, transcript, section headings and so on)
-// must stay.
-// ============================================================
- 
-// ---- Assessments table: highlighted row + first-column spacing ----
-// Needs the class "app-assessments-table" on the table (already in the
-// assessments page below).
-.app-assessments-table .govuk-table__header:first-child,
-.app-assessments-table .govuk-table__cell:first-child {
-  padding-left: govuk-spacing(3);
+.has-call-notes__note {
+  white-space: pre-wrap;
 }
- 
-.app-table__row--highlight td {
-  background-color: govuk-tint(govuk-colour("blue"), 80%);
+
+// --- End call modal ---
+
+.has-modal {
+  border: 5px solid #0b0c0c;
+  padding: 30px;
+  max-width: 640px;
+  width: calc(100% - 40px);
+
+  &::backdrop {
+    background: rgba(11, 12, 12, 0.6);
+  }
+
+  .govuk-button-group {
+    margin-bottom: 0;
+  }
 }
- 
-.app-table__row--highlight td:first-child {
-  box-shadow: inset 4px 0 0 0 govuk-colour("blue");
+
+// --- Transcript page ---
+
+.has-transcript-meta {
+  @include govuk-font($size: 16);
+  color: #505a5f; // GOV.UK secondary text
+  margin: -5px 0 25px;
 }
- 
-// ---- Save-success banner spacing (Review draft report) ----
-// The banner itself uses the built-in GOV.UK notification banner styles;
-// this just gives it room above and below the section it confirms.
-.dwp-save-banner {
-  margin-top: govuk-spacing(4);
-  margin-bottom: govuk-spacing(4);
+
+.has-transcript {
+  max-width: 720px;
+}
+
+.has-transcript__turn {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.has-transcript__time {
+  @include govuk-font($size: 16);
+  color: #505a5f; // GOV.UK secondary text
+  font-variant-numeric: tabular-nums;
+  width: 45px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.has-transcript__speaker {
+  width: 105px;
+  flex-shrink: 0;
+}
+
+.has-transcript__tag {
+  @include govuk-font($size: 16, $weight: bold);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  display: inline-block;
+}
+
+.has-transcript__tag--hcp {
+  color: #144e81;
+  background: #d2e2f1;
+}
+
+.has-transcript__tag--claimant {
+  color: #383f43;
+  background: #e8e8e8;
+}
+
+.has-transcript__text {
+  @include govuk-font($size: 16);
+}
+
+// --- Sub-headings inside a report section (e.g. Social and occupational history) ---
+
+.has-report-sub-heading {
+  @include govuk-font($size: 16, $weight: bold);
+  margin: 20px 0 0;
+}
+
+// ===========================================================================
+// Journey 2 — alternative report and note comparison UIs
+// ===========================================================================
+
+// --- Structured report cards ---
+
+.j2-card {
+  border: 1px solid #b1b4b6; // GOV.UK mid grey
+  padding: 15px 20px 20px;
+  margin-bottom: 20px;
+}
+
+.j2-card__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.j2-card__title {
+  @include govuk-font($size: 19, $weight: bold);
+  margin: 0;
+}
+
+.j2-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.j2-card__tag {
+  @include govuk-font($size: 16, $weight: bold);
+  font-size: 12px;
+}
+
+.j2-card__edit {
+  @include govuk-font($size: 16);
+}
+
+.j2-card__note-flag {
+  @include govuk-font($size: 16, $weight: bold);
+  color: #1d70b8; // GOV.UK link blue
+  margin: 12px 0 0;
+}
+
+.j2-card__body {
+  margin-top: 12px;
+}
+
+.j2-card__body--editing {
+  outline: 3px solid #ffdd00; // GOV.UK focus yellow
+  box-shadow: inset 0 0 0 2px #0b0c0c;
+  padding: 8px;
+  margin-left: -8px;
+}
+
+.j2-card__text {
+  @include govuk-font($size: 16);
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+
+.j2-card__body--empty .j2-card__text {
+  color: #505a5f; // GOV.UK secondary text
+}
+
+.j2-card__save {
+  margin-top: 15px;
+}
+
+// --- Compare and choose ---
+
+.j2-compare__heading {
+  @include govuk-font($size: 19, $weight: bold);
+  font-size: 20px;
+  margin: 35px 0 12px;
+}
+
+.j2-compare {
+  display: grid;
+  gap: 20px;
+}
+
+.j2-compare--side-by-side {
+  grid-template-columns: 1fr 1fr;
+}
+
+.j2-compare--stacked {
+  grid-template-columns: 1fr;
+  max-width: 720px;
+}
+
+// In the stacked layout the AI summary sits above the HCP's own notes
+.j2-compare--stacked .j2-pane--ai { order: 1; }
+.j2-compare--stacked .j2-pane--notes { order: 2; }
+
+.j2-pane {
+  border: 1px solid #b1b4b6; // GOV.UK mid grey
+  padding: 12px 15px 15px;
+}
+
+.j2-pane--ai {
+  background: #f0f4f8;
+  border-color: #1d70b8; // GOV.UK link blue
+}
+
+.j2-pane__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.j2-pane__tag {
+  @include govuk-font($size: 16, $weight: bold);
+  font-size: 12px;
+}
+
+.j2-pane__label {
+  @include govuk-font($size: 16);
+  color: #505a5f; // GOV.UK secondary text
+}
+
+.j2-pane__copy {
+  @include govuk-font($size: 16);
+  margin-left: auto;
+}
+
+.j2-pane__body {
+  @include govuk-font($size: 16);
+  white-space: pre-wrap;
+  min-height: 90px;
+}
+
+.j2-compare__combine {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0;
+  padding: 20px 0;
+
+  .govuk-button {
+    margin-bottom: 0;
+  }
+}
+
+.j2-compare__hint {
+  @include govuk-font($size: 16);
+  color: #505a5f; // GOV.UK secondary text
+}
+
+// --- The report text the choices build up ---
+
+.j2-report-box {
+  border: 2px solid #0b0c0c;
+  padding: 15px 20px 20px;
+  max-width: 720px;
+  margin-bottom: 10px;
+}
+
+.j2-report-box__text {
+  @include govuk-font($size: 16);
+  white-space: pre-wrap;
+  padding: 5px 8px;
+  margin: 0 0 10px -8px;
+
+  &:hover {
+    background: #f3f2f1; // GOV.UK light grey
+  }
+
+  &:focus {
+    outline: 3px solid #ffdd00; // GOV.UK focus yellow
+    box-shadow: inset 0 0 0 2px #0b0c0c;
+    background: #ffffff;
+  }
+}
+
+// --- Journey 2: inline editing on the structured report ---
+
+.j2-editable {
+  cursor: text;
+  padding: 5px 8px;
+  margin-left: -8px;
+  min-height: 30px;
+
+  &:hover {
+    background: #f3f2f1; // GOV.UK light grey
+  }
+
+  &:focus {
+    outline: 3px solid #ffdd00; // GOV.UK focus yellow
+    box-shadow: inset 0 0 0 2px #0b0c0c;
+    background: #ffffff;
+  }
+}
+
+.j2-card__text--empty {
+  color: #505a5f; // GOV.UK secondary text
+}
+
+.j2-card__compare {
+  margin: 5px 0 25px;
+
+  .govuk-button {
+    margin-bottom: 0;
+  }
+}
+
+.j2-card__save {
+  margin-top: 15px;
+
+  .govuk-button {
+    margin-bottom: 0;
+  }
+}
+
+// --- Link across to the other report UI (for research sessions) ---
+
+.j2-other-view {
+  @include govuk-font($size: 16);
+  margin-top: 20px;
+}
+
+// --- Journey 2: review checkbox on each report section ---
+
+.j2-card__reviewed {
+  margin-top: 20px;
+}
+
+// --- Compare link on the structured report ---
+
+.j2-compare-link {
+  @include govuk-font($size: 16, $weight: bold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.1578em;
+
+  &:link,
+  &:visited {
+    color: #1d70b8; // GOV.UK link blue
+  }
+
+  &:hover {
+    text-decoration-thickness: 3px;
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+  }
 }

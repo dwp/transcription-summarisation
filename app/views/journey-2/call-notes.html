@@ -1,0 +1,86 @@
+{% extends "layouts/has.html" %}
+
+{% set pageName = "Functional history notes" %}
+{% set navCurrent = "functional-history" %}
+
+{# Journey 2 keeps its own call state and its own notes, so testing it never
+   disturbs journey 1. Which report UI the HCP sees after ending the call is
+   decided by the link they came in on (see the /journey-2/start routes). #}
+{% set stripState = "recording" %}
+{% set endCallAction = "/journey-2/end-call" %}
+{% set summaryHref = "/journey-2/draft-report" %}
+{% set fhHref = "/journey-2/call-notes" %}
+
+{% set activities = [
+  { group: "Daily living", items: [
+    { id: "preparing-food", label: "Preparing food" },
+    { id: "taking-nutrition", label: "Taking nutrition" },
+    { id: "managing-therapy", label: "Managing therapy" },
+    { id: "washing-and-bathing", label: "Washing and bathing" },
+    { id: "managing-toilet-needs", label: "Managing toilet needs" },
+    { id: "dressing-and-undressing", label: "Dressing and undressing" },
+    { id: "communicating-verbally", label: "Communicating verbally" },
+    { id: "reading-and-understanding", label: "Reading and understanding signs, symbols and words" },
+    { id: "engaging-face-to-face", label: "Engaging face to face" },
+    { id: "budgeting", label: "Budgeting" }
+  ]},
+  { group: "Mobility", items: [
+    { id: "planning-and-following-journeys", label: "Planning and following journeys" },
+    { id: "moving-around", label: "Moving around" }
+  ]}
+] %}
+
+{% block content %}
+  <h1 class="govuk-heading-l has-page-heading">Functional history notes</h1>
+
+  {% if data['j2-notes-prefilled'] %}
+    <div class="has-report-inset">
+      <p class="has-report-inset__lead">These are the notes you took during the call.</p>
+      <p class="has-report-inset__body">Check them and add anything you want before you end the call. Your notes are not included in the final report &mdash; an AI summary of each activity will be made from the transcript.</p>
+    </div>
+  {% else %}
+    <p class="has-intro">Use this page to take your notes during the call. Your notes are not included in the final report.<br>An AI summary of each activity will be made from the transcript at the end of the call.</p>
+
+    <p class="has-intro">Your notes will be available to view when you review the draft summary.</p>
+  {% endif %}
+
+  {% for section in activities %}
+    <h2 class="govuk-heading-m has-activity-group">{{ section.group }}</h2>
+    {% for activity in section.items %}
+      <div class="govuk-form-group has-activity">
+        <label class="govuk-label govuk-label--s" for="j2-notes-{{ activity.id }}">{{ activity.label }}</label>
+        <textarea class="govuk-textarea has-notes-box" id="j2-notes-{{ activity.id }}" name="j2-notes-{{ activity.id }}" rows="4" data-autosave>{{ data['j2-notes-' + activity.id] }}</textarea>
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  <p class="has-footnote">An AI summary of this section will be ready after the call</p>
+
+  <script>
+    (function () {
+      var timers = {}
+      var queue = Promise.resolve()
+      function save (name, value) {
+        // saves run one at a time so simultaneous saves cannot overwrite each other
+        queue = queue.then(function () {
+          var body = new URLSearchParams()
+          body.append(name, value)
+          return fetch('/transcription/autosave', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body.toString()
+          })
+        })
+      }
+      var boxes = document.querySelectorAll('[data-autosave]')
+      boxes.forEach(function (box) {
+        box.addEventListener('input', function () {
+          clearTimeout(timers[box.name])
+          timers[box.name] = setTimeout(function () {
+            save(box.name, box.value)
+          }, 400)
+        })
+      })
+    })()
+  </script>
+{% endblock %}

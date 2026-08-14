@@ -1,0 +1,21 @@
+{% extends "layouts/has.html" %}
+
+{% set pageName = "Assessment report submitted" %}
+{% set stripState = "ended" %}
+{% set pageNoNav = true %}
+{% set summaryHref = "/transcription/review-draft-report" %}
+
+{% block content %}
+  <div class="govuk-panel govuk-panel--confirmation">
+    <h1 class="govuk-panel__title">Assessment report submitted</h1>
+    <div class="govuk-panel__body">Reference<br><strong>TSS-2026-4472</strong></div>
+  </div>
+
+  <h2 class="govuk-heading-m">What happens next</h2>
+
+  <p class="govuk-body">The report has been sent to the case manager. The transcript and the AI summary are stored with the assessment record and remain searchable.</p>
+
+  <p class="govuk-body">Your call notes are kept separately as a record of what you wrote during the call. They are not part of the report.</p>
+
+  <p class="govuk-body"><a class="govuk-link" href="/">Return to your assessments</a></p>
+{% endblock %}

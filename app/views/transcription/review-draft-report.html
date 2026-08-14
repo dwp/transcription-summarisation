@@ -1,0 +1,299 @@
+
+{% extends "layouts/has.html" %}
+
+{% set pageName = "Review the draft report" %}
+{% set stripState = "ended" %}
+{% set pageNoNav = true %}
+
+{# Every section is editable in place: click in, edit, it autosaves to
+   session data under the data-name field. Saved edits win over dummy copy. #}
+
+{% macro editable(name, text, empty=false, label="") %}
+<div class="has-editable has-report-row__value{% if empty %} has-report-row__value--empty{% endif %}" data-editable data-name="{{ name }}"{% if empty %} data-empty="true"{% endif %} contenteditable="true" role="textbox" aria-multiline="true" aria-label="{{ label }}">{{ text }}</div>
+{% endmacro %}
+
+{# question and justification are kept in this data but not rendered:
+   the descriptor rows were removed from the draft summary. #}
+{% set activities = [
+  { group: "Daily living", items: [
+    { id: "preparing-food", label: "Preparing food",
+      question: "How well can the claimant prepare food?",
+      justification: "Justification for preparing food",
+      draft: "She does not usually prepare or cook meals. Her brother prepares meals and asks her to help. She sometimes helps her brother, such as peeling potatoes, but tries to avoid it.
+
+When her brother is not there, she can heat soup using the cooker or microwave.
+
+She does not feel motivated to cook and described feeling low." },
+    { id: "taking-nutrition", label: "Taking nutrition",
+      question: "How well can the claimant take nutrition?",
+      justification: "Justification for taking nutrition",
+      draft: "She does not eat much and has lost a lot of weight. She does not usually feel hungry and does not feel motivated to eat.
+
+Her brother encourages her to eat more and have balanced food regularly. When her brother is not there, she may eat soup or crisps.
+
+She told her doctor about her weight loss, but they did not say they would refer her anywhere." },
+    { id: "managing-therapy", label: "Managing therapy",
+      question: "How well can the claimant manage therapy or monitor a health condition?",
+      justification: "Justification for managing therapy",
+      draft: "She sometimes forgets to take her medication. Her brother phones her and tells her to take it and checks that she has.
+
+She has missed medication several times. The last time was a couple of weeks ago. She can miss medication a few times a week if her brother does not tell her to take it." },
+    { id: "washing-and-bathing", label: "Washing and bathing",
+      question: "How well can the claimant wash and bathe?",
+      justification: "Justification for washing and bathing",
+      draft: "" },
+    { id: "managing-toilet-needs", label: "Managing toilet needs",
+      question: "How well can the claimant manage toilet needs?",
+      justification: "Justification for managing toilet needs",
+      draft: "" },
+    { id: "dressing-and-undressing", label: "Dressing and undressing",
+      question: "How well can the claimant dress or undress?",
+      justification: "Justification for managing dressing and undressing",
+      draft: "" },
+    { id: "communicating-verbally", label: "Communicating verbally",
+      question: "How well can the claimant communicate verbally?",
+      justification: "Justification for communicating verbally",
+      draft: "" },
+    { id: "reading-and-understanding", label: "Reading and understanding signs, symbols and words",
+      question: "How well can the claimant read and understand signs, symbols and words?",
+      justification: "Justification for reading and understanding signs, symbols and words",
+      draft: "" },
+    { id: "engaging-face-to-face", label: "Engaging face to face",
+      question: "How well can the claimant engage face to face?",
+      justification: "Justification for engaging face to face",
+      draft: "" },
+    { id: "budgeting", label: "Budgeting",
+      question: "How well can the claimant budget?",
+      justification: "Justification for budgeting",
+      draft: "" }
+  ]},
+  { group: "Mobility", items: [
+    { id: "planning-and-following-journeys", label: "Planning and following journeys",
+      question: "How well can the claimant plan and follow journeys?",
+      justification: "Justification for planning and following journeys",
+      draft: "" },
+    { id: "moving-around", label: "Moving around",
+      question: "How well can the claimant move around?",
+      justification: "Justification for moving around",
+      draft: "" }
+  ]}
+] %}
+
+{% set socialOccupational = [
+  { id: "living-arrangements", sub: "Living arrangements", text: "She lives on her own. Her brother visits most days and is her main support." },
+  { id: "access", sub: "Access", text: "She manages the stairs to her flat without difficulty. She spends most of the day indoors and often stays on the sofa." },
+  { id: "aids-and-appliances", sub: "Aids and appliances", text: "She does not use any aids or appliances." },
+  { id: "bath-and-shower", sub: "Bath and shower", text: "There is a bath with a shower over it. She reported no physical difficulty getting in and out, but often does not feel motivated to wash." },
+  { id: "occupation", sub: "Occupation", text: "She is not currently working. She last worked about two years ago." },
+  { id: "driving", sub: "Driving", text: "She holds a full driving licence but has not driven for several months. She said she does not feel able to concentrate well enough to drive." },
+  { id: "leisure", sub: "Leisure", text: "She used to enjoy reading and seeing friends. She reported losing interest in both over the past year." },
+  { id: "shopping", sub: "Shopping", text: "Her brother does the food shopping for her. She occasionally orders online when he is not able to come." },
+  { id: "housework", sub: "Housework", text: "Her brother helps with the housework. She manages small tasks on better days." },
+  { id: "pets", sub: "Pets", text: "None" },
+  { id: "going-out", sub: "Going out", text: "She rarely goes out. Her brother visits her at home. She does not go out to meet people socially." },
+  { id: "use-of-computers", sub: "Use of computers and mobile phones", text: "She uses her mobile phone to speak to her brother and to set reminders for her medication. She does not use a computer regularly." },
+  { id: "application-and-consultation", sub: "Application and consultation", text: "Questionnaire filled in by the claimant with help from her brother. The consultation took place by telephone." }
+] %}
+
+{% block content %}
+  <a class="govuk-back-link" href="/transcription/functional-history">Back</a>
+
+  <h1 class="govuk-heading-l has-page-heading">Review the draft report</h1>
+
+  <div class="has-report-inset">
+    <p class="has-report-inset__lead">The AI wrote this draft from the call transcript. Your call notes do not go into the report, they sit under each section heading to help you check it.</p>
+    <p class="has-report-inset__body">Click into any section to edit it. Your changes save automatically and update this report.</p>
+  </div>
+
+  <h2 class="has-report-group">Consultation</h2>
+
+  <div class="has-report-row">
+    <h3 class="has-report-row__title">Consultation date</h3>
+    {{ editable("rpt-consultation-date", data["rpt-consultation-date"] or "13 August 2026", false, "Consultation date") }}
+  </div>
+
+  <div class="has-report-row">
+    <h3 class="has-report-row__title">Did the claimant give consent?</h3>
+    {{ editable("rpt-consent", data["rpt-consent"] or "Yes", false, "Did the claimant give consent") }}
+  </div>
+
+  <div class="has-report-row">
+    <h3 class="has-report-row__title">Additional attendees</h3>
+    {{ editable("rpt-attendees", data["rpt-attendees"] or "None", false, "Additional attendees") }}
+  </div>
+
+  <h2 class="has-report-group">History</h2>
+
+  <div class="has-report-row">
+    <h3 class="has-report-row__title">History of condition</h3>
+    {{ editable("rpt-history-of-condition", data["rpt-history-of-condition"] or "She has been feeling low for about a year. She described losing interest in things she used to enjoy and struggling to get going in the morning. She has lost a lot of weight over the same period. She saw her GP about the weight loss and was not referred on.", false, "History of condition") }}
+  </div>
+
+  <div class="has-report-row">
+    <h3 class="has-report-row__title">Current medication and treatment</h3>
+    {{ editable("rpt-medication", data["rpt-medication"] or "She is prescribed medication by her GP and takes it at home. She sometimes forgets to take it and relies on her brother phoning to remind her. She reported no side effects.", false, "Current medication and treatment") }}
+  </div>
+
+  <div class="has-report-row">
+    <h3 class="has-report-row__title">Social and occupational history</h3>
+    {% for item in socialOccupational %}
+      <h4 class="has-report-sub-heading">{{ item.sub }}</h4>
+      {{ editable("rpt-so-" + item.id, data["rpt-so-" + item.id] or item.text, false, item.sub) }}
+    {% endfor %}
+  </div>
+
+  {% for section in activities %}
+    <h2 class="has-report-group has-report-group--major">{{ section.group }}</h2>
+
+    {% set groupNotes = [] %}
+    {% for activity in section.items %}
+      {% if data["fh-notes-" + activity.id] %}
+        {% set _ = groupNotes.push({ label: activity.label, note: data["fh-notes-" + activity.id] }) %}
+      {% endif %}
+    {% endfor %}
+    <details class="has-call-notes has-call-notes--group">
+      <summary class="has-call-notes__summary">My notes</summary>
+      <div class="has-call-notes__panel">
+        {% if groupNotes.length %}
+          {% for n in groupNotes %}
+            <p class="has-call-notes__item"><strong>{{ n.label }}</strong><br><span class="has-call-notes__note">{{ n.note }}</span></p>
+          {% endfor %}
+        {% else %}
+          <p class="has-call-notes__item">You did not make any notes for {{ section.group | lower }} during the call.</p>
+        {% endif %}
+      </div>
+    </details>
+
+    {% for activity in section.items %}
+      <h3 class="has-report-activity">{{ activity.label }}</h3>
+
+      <div class="has-report-row">
+        <h4 class="has-report-row__title">Functional history for {{ activity.label | lower }}</h4>
+        {% set saved = data["rpt-fh-" + activity.id] %}
+        {% if saved %}
+          {{ editable("rpt-fh-" + activity.id, saved, false, "Functional history for " + activity.label) }}
+        {% elif activity.draft %}
+          {{ editable("rpt-fh-" + activity.id, activity.draft, false, "Functional history for " + activity.label) }}
+        {% else %}
+          {{ editable("rpt-fh-" + activity.id, "Nothing was recorded for this activity in the call. You will need to write it.", true, "Functional history for " + activity.label) }}
+        {% endif %}
+      </div>
+
+    {% endfor %}
+
+    {% set qslug = "rpt-" + (section.group | lower | replace(" ", "-")) %}
+    <h3 class="has-report-activity">{{ section.group }} qualifying period and prospective test</h3>
+
+    <div class="has-report-row">
+      <h4 class="has-report-row__title">Has the claimant had the functional restriction for at least 3 months?</h4>
+      {{ editable(qslug + "-qualifying", data[qslug + "-qualifying"] or "", false, section.group + " qualifying period") }}
+    </div>
+
+    <div class="has-report-row">
+      <h4 class="has-report-row__title">Is the claimant likely to have the functional restriction in 9 months?</h4>
+      {{ editable(qslug + "-prospective", data[qslug + "-prospective"] or "", false, section.group + " prospective test") }}
+    </div>
+  {% endfor %}
+
+  <h2 class="has-report-group has-report-group--major">Physical examinations</h2>
+
+  <h3 class="has-report-activity">Examination consent</h3>
+
+  <div class="has-report-row">
+    <h4 class="has-report-row__title">Did the claimant consent to the physical examination?</h4>
+    {{ editable("rpt-exam-consent", data["rpt-exam-consent"] or "Yes", false, "Examination consent") }}
+  </div>
+
+  <div class="has-report-row">
+    <h4 class="has-report-row__title">Chaperone name</h4>
+    {{ editable("rpt-chaperone", data["rpt-chaperone"] or "None", false, "Chaperone name") }}
+  </div>
+
+  <h3 class="has-report-activity">Physical examination</h3>
+
+  <div class="has-report-row">
+    {{ editable("rpt-physical-examination", data["rpt-physical-examination"] or "A physical examination was not carried out. This was a telephone consultation.", false, "Physical examination") }}
+  </div>
+
+  <h2 class="has-report-group has-report-group--major">Observations</h2>
+
+  <h3 class="has-report-activity">Mental state observations</h3>
+
+  <div class="has-report-row">
+    {{ editable("rpt-mental-state", data["rpt-mental-state"] or "She spoke quietly and with long pauses. She became tearful when talking about her weight loss. She was orientated throughout and answered all questions.", false, "Mental state observations") }}
+  </div>
+
+  <h3 class="has-report-activity">Informal state observations</h3>
+
+  <div class="has-report-row">
+    {{ editable("rpt-informal-observations", data["rpt-informal-observations"] or "She answered the call on time and managed the phone without help. She asked for one question to be repeated. Her brother was not present during the call.", false, "Informal state observations") }}
+  </div>
+
+  <h2 class="has-report-group has-report-group--major">Recommendation</h2>
+
+  <div class="has-report-row">
+    <h4 class="has-report-row__title">Recommended future review period</h4>
+    {{ editable("rpt-review-period", data["rpt-review-period"] or "1 year", false, "Recommended future review period") }}
+  </div>
+
+  <div class="has-report-row">
+    <h4 class="has-report-row__title">Reason for this review period</h4>
+    {{ editable("rpt-review-reason", data["rpt-review-reason"] or "Her mood and weight may change with treatment and support. A review in 1 year allows any change to be reassessed.", false, "Reason for this review period") }}
+  </div>
+
+  <div class="has-report-row">
+    <h4 class="has-report-row__title">Is it likely that the functional restriction will still be present when reviewed?</h4>
+    {{ editable("rpt-restriction-at-review", data["rpt-restriction-at-review"] or "Yes", false, "Functional restriction at review") }}
+  </div>
+
+  <div class="has-report-row">
+    <h4 class="has-report-row__title">Do they need additional support for future claims processes?</h4>
+    {{ editable("rpt-additional-support", data["rpt-additional-support"] or "No", false, "Additional support for future claims") }}
+  </div>
+
+  <div class="has-report-row">
+    <h4 class="has-report-row__title">Does the claimant meet the criteria for special rules?</h4>
+    {{ editable("rpt-special-rules", data["rpt-special-rules"] or "No", false, "Special rules") }}
+  </div>
+
+  <p class="has-report-print"><a class="govuk-link" href="#">Print this page</a></p>
+
+  <form method="post" action="/transcription/submit">
+    <button class="govuk-button" data-module="govuk-button">Submit assessment report</button>
+  </form>
+
+  <script>
+    (function () {
+      var timers = {}
+      var queue = Promise.resolve()
+      function save (name, value) {
+        // saves run one at a time so simultaneous saves cannot overwrite each other
+        queue = queue.then(function () {
+          var body = new URLSearchParams()
+          body.append(name, value)
+          return fetch('/transcription/autosave', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body.toString()
+          })
+        })
+      }
+      document.querySelectorAll('[data-editable]').forEach(function (el) {
+        el.addEventListener('focus', function () {
+          if (el.getAttribute('data-empty') === 'true') {
+            el.textContent = ''
+            el.removeAttribute('data-empty')
+            el.classList.remove('has-report-row__value--empty')
+          }
+        })
+        el.addEventListener('input', function () {
+          var name = el.getAttribute('data-name')
+          clearTimeout(timers[name])
+          timers[name] = setTimeout(function () {
+            save(name, el.innerText)
+          }, 500)
+        })
+      })
+    })()
+  </script>
+{% endblock %}

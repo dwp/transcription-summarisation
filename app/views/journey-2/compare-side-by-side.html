@@ -1,0 +1,16 @@
+{% extends "layouts/has.html" %}
+
+{% set pageName = "Preparing food — compare and choose" %}
+{% set stripState = "ended" %}
+{% set navCurrent = "functional-history" %}
+{% set summaryHref = "/journey-2/draft-report" %}
+{% set fhHref = "/journey-2/call-notes" %}
+
+{# UI 2: your call notes and the AI summary side by side, for Preparing food. #}
+{% set compareLayout = "side-by-side" %}
+{% set compareActivity = "preparing-food" %}
+
+{% block content %}
+  <a class="govuk-back-link" href="/journey-2/draft-report">Back to the draft report</a>
+  {% include "includes/j2-compare.html" %}
+{% endblock %}

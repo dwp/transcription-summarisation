@@ -1,0 +1,16 @@
+{% extends "layouts/has.html" %}
+
+{% set pageName = "Taking nutrition — compare and choose" %}
+{% set stripState = "ended" %}
+{% set navCurrent = "functional-history" %}
+{% set summaryHref = "/journey-2/draft-report" %}
+{% set fhHref = "/journey-2/call-notes" %}
+
+{# UI 3: the AI summary above your call notes, for Taking nutrition. #}
+{% set compareLayout = "stacked" %}
+{% set compareActivity = "taking-nutrition" %}
+
+{% block content %}
+  <a class="govuk-back-link" href="/journey-2/draft-report">Back to the draft report</a>
+  {% include "includes/j2-compare.html" %}
+{% endblock %}

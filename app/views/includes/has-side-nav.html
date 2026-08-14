@@ -1,0 +1,40 @@
+{% set fhHref = fhHref or "/transcription/functional-history" %}
+{% set summaryHref = summaryHref or "/transcription/review-draft-report" %}
+{% set hasNav = [
+  { group: "Evidence", items: [
+    { id: "evidence", label: "Evidence" }
+  ]},
+  { group: "Consultation", items: [
+    { id: "consultation-date", label: "Consultation date" },
+    { id: "claimant-identity", label: "Claimant identity" },
+    { id: "claimant-consent", label: "Claimant consent" },
+    { id: "additional-attendees", label: "Additional attendees" },
+    { id: "start-recording", label: "Start recording" },
+    { id: "condition-history", label: "Condition history" },
+    { id: "medication", label: "Medication" },
+    { id: "social-occupational", label: "Social and occupational history" }
+  ]},
+  { group: "Functional history", items: [
+    { id: "functional-history", label: "Functional history", href: fhHref }
+  ]},
+  { group: "Observations", items: [
+    { id: "mental-state-observations", label: "Mental state observations" },
+    { id: "informal-observations", label: "Informal observations" }
+  ]},
+  { group: "Summary", items: [
+    { id: "draft-summary", label: "Draft summary", href: summaryHref },
+    { id: "end-of-call-summary", label: "End of call summary" }
+  ]}
+] %}
+<nav class="has-side-nav" aria-label="Assessment sections">
+  {% for section in hasNav %}
+    <h2 class="has-side-nav__group">{{ section.group }}</h2>
+    <ul class="has-side-nav__list">
+      {% for item in section.items %}
+        <li class="has-side-nav__item{% if item.id == navCurrent %} has-side-nav__item--current{% endif %}">
+          <a class="has-side-nav__link" {% if item.id == navCurrent %}aria-current="page" {% endif %}href="{{ item.href | default('#') }}">{{ item.label }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+</nav>
