@@ -100,3 +100,7 @@ router.post('/journey-2/submit', (req, res) => {
   req.session.data['j2-submitted'] = 'yes'
   res.redirect('/journey-2/submitted')
 })
+router.get('/clear-data', function (req, res) {
+  req.session.data = {}
+  res.redirect('/')
+})
