@@ -114,6 +114,7 @@ router.get('/clear-data', function (req, res) {
   res.redirect('/')
 })
 
+
 router.post('/journey-2/save-compare', (req, res) => {
   const activity = String(req.body['activity-id'] || '')
   const text = String(req.body['section-text'] || '')

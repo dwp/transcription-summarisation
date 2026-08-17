@@ -1,186 +1,207 @@
 {% extends "layouts/has.html" %}
-
+ 
 {% set pageName = "Review the draft report" %}
 {% set stripState = "ended" %}
 {% set pageNoNav = true %}
 {% set summaryHref = "/journey-2/draft-report" %}
-
+ 
 {# Journey 2, UI 1: the report as separate sections, each with its own review
-   state. Everything is editable in place — there is no Edit step. Where a
-   section has a comparison to offer, a button takes the HCP straight to it. #}
-
+state. Everything is editable in place — there is no Edit step. Where a
+section has a comparison to offer, a button takes the HCP straight to it. #}
+ 
 {% set sections = [
-  {
-    id: "condition-history",
-    title: "Condition history",
-    notes: true,
-    draft: "She has been feeling low for about a year. She described losing interest in things she used to enjoy and struggling to get going in the morning. She has lost a lot of weight over the same period. She saw her GP about the weight loss and was not referred on."
-  },
-  {
-    id: "medication",
-    title: "Medication",
-    notes: true,
-    draft: "She is prescribed medication by her GP and takes it at home. She sometimes forgets to take it and relies on her brother phoning to remind her. She reported no side effects."
-  },
-  {
-    id: "social-occupational",
-    title: "Social and occupational history",
-    notes: false,
-    draft: "She lives on her own. Her brother visits most days, prepares meals and encourages her to eat. He phones her about her medication and checks that she has taken it. She does not go out to meet people socially."
-  },
-  {
-    id: "functional-history",
-    title: "Daily living",
-    notes: true,
-    subsections: [
-      { id: "preparing-food", sub: "Preparing food", compare: "/journey-2/compare-side-by-side",
-        text: "She does not usually prepare or cook meals. Her brother prepares meals and asks her to help. She sometimes helps her brother, such as peeling potatoes, but tries to avoid it.\n\nWhen her brother is not there, she can heat soup using the cooker or microwave.\n\nShe does not feel motivated to cook and described feeling low." },
-      { id: "taking-nutrition", sub: "Taking nutrition", compare: "/journey-2/compare-stacked",
-        text: "She does not eat much and has lost a lot of weight. She does not usually feel hungry and does not feel motivated to eat.\n\nHer brother encourages her to eat more and have balanced food regularly. When her brother is not there, she may eat soup or crisps.\n\nShe told her doctor about her weight loss, but they did not say they would refer her anywhere." },
-      { id: "managing-therapy", sub: "Managing therapy",
-        text: "She sometimes forgets to take her medication. Her brother phones her and tells her to take it and checks that she has.\n\nShe has missed medication several times. The last time was a couple of weeks ago. She can miss medication a few times a week if her brother does not tell her to take it." }
-    ]
-  },
-  {
-    id: "mobility",
-    title: "Mobility",
-    notes: false,
-    empty: true,
-    draft: "Nothing was recorded for this section during the call. You will need to write it."
-  },
-  {
-    id: "observations",
-    title: "Observations",
-    yoursOnly: true,
-    draft: ""
-  }
+{
+id: "condition-history",
+title: "Condition history",
+notes: true,
+draft: "He reports being diagnosed with bipolar disorder approximately a year ago, following a hospital admission lasting around three months. He reports being told he was displaying signs of mania at the time of admission.\n\nHe reports persistent low mood, poor motivation, poor sleep and reduced appetite, with significant weight loss. He reports anxiety when leaving home, feeling overwhelmed and nauseated and experiencing a racing heart when undertaking journeys. He reports thoughts that he does not want to be here, which he has discussed with the Mental Health Team, and denies acting upon them.\n\nHe reports his symptoms are present every day and his mood has deteriorated further over approximately the last four months, with no further manic episodes since his admission. The Community Mental Health Team visit him at home once weekly."
+},
+ 
+{
+id: "medication",
+title: "Medication",
+notes: true,
+draft: "He is prescribed Venlafaxine 375mg once daily, Quetiapine 400mg twice daily and Zopiclone 3.75mg. He does not know what the Venlafaxine or Quetiapine are for. The Zopiclone is prescribed for sleep, however he continues to experience poor sleep and does not feel it is working well.\n\nHe believes the medication has helped to some extent but reports his mental health has continued to deteriorate. He reports experiencing nausea and dry mouth and is unsure which of his prescribed medications causes these symptoms."
+},
+ 
+{
+id: "social-occupational",
+title: "Social and occupational history",
+notes: false,
+draft: "He lives with his brother in his brother's flat. His brother provides significant practical and emotional support on a daily basis: he cooks, cleans, completes the household shopping and prompts him to wash, dress and take his medication.\n\nHe previously worked as a receptionist and stopped work following his diagnosis last year. He spends most of his time at home and has no current social contact with friends. He goes to a local shop about once a month, late in the evening when there are fewer people present. He feeds his brother's dog and lets it into the garden but no longer walks it, as he does not want to speak to neighbours."
+},
+ 
+{
+id: "functional-history",
+title: "Daily living",
+notes: true,
+subsections: [
+{ id: "preparing-food", sub: "Preparing food", compare: "/journey-2/compare-side-by-side",
+text: "He does not usually prepare or cook meals. His brother prepares meals and asks him to help. He sometimes helps his brother, such as peeling potatoes, but tries to avoid it.\n\nWhen his brother is not there, he can heat soup using the cooker or microwave.\n\nHe does not feel motivated to cook and described feeling low." },
+ 
+{ id: "taking-nutrition", sub: "Taking nutrition", compare: "/journey-2/compare-stacked",
+text: "He does not eat much and has lost a lot of weight. He does not usually feel hungry and does not feel motivated to eat.\n\nHis brother encourages him to eat more and have balanced food regularly. When his brother is not there, he may eat soup or crisps.\n\nHe told his doctor about his weight loss, but they did not say they would refer him anywhere." },
+ 
+{ id: "managing-therapy", sub: "Managing therapy",
+text: "He sometimes forgets to take his medication. His brother phones him and tells him to take it and checks that he has.\n\nHe has missed medication several times. The last time was a couple of weeks ago. He can miss medication a few times a week if his brother does not tell him to take it." }
+]
+},
+ 
+{
+id: "mobility",
+title: "Mobility",
+notes: false,
+draft: "He reports feeling anxious before and during journeys and describes feeling overwhelmed, nauseated and experiencing a racing heart. He fears that something may go wrong while outside. He would often abandon journeys and return home when situations become unfamiliar or overwhelming.\n\nHe reports no physical difficulties with walking or mobility. He is able to walk to a local shop approximately ten minutes from home when required. He does not use mobility aids."
+},
+ 
+{
+id: "observations",
+title: "Observations",
+yoursOnly: true,
+draft: ""
+}
 ] %}
-
+ 
 {% block content %}
-  <h1 class="govuk-heading-l has-page-heading">Review the draft report</h1>
-
-  <div class="has-report-inset">
-    <p class="has-report-inset__lead">The AI wrote this draft from the call transcript. Your call notes do not go into the report, they are there to check it against.</p>
-    <p class="has-report-inset__body">Click into any section to edit it. Your changes save as you type. Tick the box when you have reviewed a section.</p>
-  </div>
-
-  {% set reviewedCount = [] %}
-  {% for section in sections %}
-    {% if data['j2-reviewed-' + section.id] %}{% set _ = reviewedCount.push(1) %}{% endif %}
-  {% endfor %}
-
-  {% for section in sections %}
-    {% set isReviewed = data['j2-reviewed-' + section.id] %}
-    <div class="j2-card">
-      <div class="j2-card__header">
-        <h2 class="j2-card__title">{{ section.title }}</h2>
-        <div class="j2-card__actions">
-          {% if isReviewed %}
-            <strong class="govuk-tag govuk-tag--green j2-card__tag" data-tag-for="{{ section.id }}" data-unreviewed-label="{% if section.yoursOnly %}Yours only{% else %}Not reviewed{% endif %}" data-unreviewed-class="{% if section.yoursOnly %}govuk-tag--grey{% else %}govuk-tag--blue{% endif %}">Reviewed</strong>
-          {% elif section.yoursOnly %}
-            <strong class="govuk-tag govuk-tag--grey j2-card__tag" data-tag-for="{{ section.id }}" data-unreviewed-label="Yours only" data-unreviewed-class="govuk-tag--grey">Yours only</strong>
-          {% else %}
-            <strong class="govuk-tag govuk-tag--blue j2-card__tag" data-tag-for="{{ section.id }}" data-unreviewed-label="Not reviewed" data-unreviewed-class="govuk-tag--blue">Not reviewed</strong>
-          {% endif %}
-        </div>
-      </div>
-
-      {% if section.notes %}
-        <p class="j2-card__note-flag">You took call notes for this section &mdash; check them against this draft.</p>
-      {% elif section.yoursOnly %}
-        <p class="j2-card__note-flag">This section is yours alone. The AI does not draft observations.</p>
-      {% endif %}
-
-      {% if section.subsections %}
-        {% for item in section.subsections %}
-          <h3 class="has-report-sub-heading">{{ item.sub }}</h3>
-          <div class="j2-card__text j2-editable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Report text for {{ item.sub }}" data-autosave-name="j2-report-{{ item.id }}">{{ data['j2-report-' + item.id] or item.text }}</div>
-          {% if item.compare %}
-            <p class="j2-card__compare">
-              <a class="govuk-link j2-compare-link" href="{{ item.compare }}">Compare notes to AI summary<span class="govuk-visually-hidden"> for {{ item.sub }}</span></a>
-            </p>
-          {% endif %}
-        {% endfor %}
-      {% else %}
-        <div class="j2-card__text j2-editable{% if section.empty %} j2-card__text--empty{% endif %}" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Report text for {{ section.title }}" data-autosave-name="j2-text-{{ section.id }}"{% if section.empty %} data-empty="true"{% endif %}>{{ data['j2-text-' + section.id] or section.draft }}</div>
-      {% endif %}
-
-      <div class="govuk-checkboxes govuk-checkboxes--small j2-card__reviewed" data-module="govuk-checkboxes">
-        <div class="govuk-checkboxes__item">
-          <input class="govuk-checkboxes__input" id="reviewed-{{ section.id }}" type="checkbox" data-reviewed="{{ section.id }}"{% if isReviewed %} checked{% endif %}>
-          <label class="govuk-label govuk-checkboxes__label" for="reviewed-{{ section.id }}">I have reviewed this section</label>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
-
-  <form method="post" action="/journey-2/submit">
-    <button class="govuk-button" data-module="govuk-button" data-submit-button{% if reviewedCount.length != sections.length %} disabled aria-disabled="true"{% endif %}>Submit assessment report</button>
-    <p class="has-footnote" data-submit-hint{% if reviewedCount.length == sections.length %} hidden{% endif %}>Available once every section has been reviewed.</p>
-  </form>
-
-  <p class="j2-other-view"><a class="govuk-link" href="/transcription/review-draft-report">View draft summaries</a></p>
-
-  <script>
-    (function () {
-      var timers = {}
-      var queue = Promise.resolve()
-      function save (name, value) {
-        // saves run one at a time so simultaneous saves cannot overwrite each other
-        queue = queue.then(function () {
-          var body = new URLSearchParams()
-          body.append(name, value)
-          return fetch('/transcription/autosave', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: body.toString()
-          })
-        })
-      }
-      // Ticking the review box records it and updates the tag straight away,
-      // so the HCP never has to save or reload to see the status change.
-      var boxes = document.querySelectorAll('[data-reviewed]')
-      function refreshSubmit () {
-        var all = Array.prototype.every.call(boxes, function (b) { return b.checked })
-        var button = document.querySelector('[data-submit-button]')
-        var hint = document.querySelector('[data-submit-hint]')
-        if (button) {
-          button.disabled = !all
-          if (all) { button.removeAttribute('aria-disabled') } else { button.setAttribute('aria-disabled', 'true') }
-        }
-        if (hint) hint.hidden = all
-      }
-      boxes.forEach(function (box) {
-        box.addEventListener('change', function () {
-          var id = box.getAttribute('data-reviewed')
-          var tag = document.querySelector('[data-tag-for="' + id + '"]')
-          if (tag) {
-            var offLabel = tag.getAttribute('data-unreviewed-label')
-            var offClass = tag.getAttribute('data-unreviewed-class')
-            tag.classList.remove('govuk-tag--green', 'govuk-tag--blue', 'govuk-tag--grey')
-            tag.classList.add(box.checked ? 'govuk-tag--green' : offClass)
-            tag.textContent = box.checked ? 'Reviewed' : offLabel
-          }
-          save('j2-reviewed-' + id, box.checked ? 'yes' : '')
-          refreshSubmit()
-        })
+ 
+<h1 class="govuk-heading-l has-page-heading">Review the draft report</h1>
+ 
+<div class="has-report-inset">
+<p class="has-report-inset__lead">The AI wrote this draft from the call transcript. Your call notes do not go into the report, they are there to check it against.</p>
+<p class="has-report-inset__body">Click into any section to edit it. Your changes save as you type. Tick the box when you have reviewed a section.</p>
+</div>
+ 
+{% set reviewedCount = [] %}
+{% for section in sections %}
+{% if data['j2-reviewed-' + section.id] %}{% set _ = reviewedCount.push(1) %}{% endif %}
+{% endfor %}
+ 
+{% for section in sections %}
+ 
+{% set isReviewed = data['j2-reviewed-' + section.id] %}
+ 
+<div class="j2-card">
+ 
+<div class="j2-card__header">
+<h2 class="j2-card__title">{{ section.title }}</h2>
+<div class="j2-card__actions">
+{% if isReviewed %}
+<strong class="govuk-tag govuk-tag--green j2-card__tag" data-tag-for="{{ section.id }}" data-unreviewed-label="{% if section.yoursOnly %}Yours only{% else %}Not reviewed{% endif %}" data-unreviewed-class="{% if section.yoursOnly %}govuk-tag--grey{% else %}govuk-tag--blue{% endif %}">Reviewed</strong>
+{% elif section.yoursOnly %}
+<strong class="govuk-tag govuk-tag--grey j2-card__tag" data-tag-for="{{ section.id }}" data-unreviewed-label="Yours only" data-unreviewed-class="govuk-tag--grey">Yours only</strong>
+{% else %}
+<strong class="govuk-tag govuk-tag--blue j2-card__tag" data-tag-for="{{ section.id }}" data-unreviewed-label="Not reviewed" data-unreviewed-class="govuk-tag--blue">Not reviewed</strong>
+{% endif %}
+</div>
+</div>
+ 
+{% if section.notes %}
+<p class="j2-card__note-flag">You took call notes for this section - check them against this draft.</p>
+{% elif section.yoursOnly %}
+<p class="j2-card__note-flag">This section is yours alone. The AI does not draft observations.</p>
+{% endif %}
+ 
+{% if section.subsections %}
+ 
+{% for item in section.subsections %}
+<h3 class="has-report-sub-heading">{{ item.sub }}</h3>
+<div class="j2-card__text j2-editable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Report text for {{ item.sub }}" data-autosave-name="j2-report-{{ item.id }}">{{ data['j2-report-' + item.id] or item.text }}</div>
+{% if item.compare %}
+<p class="j2-card__compare">
+<a class="govuk-link j2-compare-link" href="{{ item.compare }}">Compare notes to AI summary<span class="govuk-visually-hidden"> for {{ item.sub }}</span></a>
+</p>
+{% endif %}
+{% endfor %}
+ 
+{% else %}
+ 
+<div class="j2-card__text j2-editable{% if section.empty %} j2-card__text--empty{% endif %}" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Report text for {{ section.title }}" data-autosave-name="j2-text-{{ section.id }}"{% if section.empty %} data-empty="true"{% endif %}>{{ data['j2-text-' + section.id] or section.draft }}</div>
+ 
+{% endif %}
+ 
+<div class="govuk-checkboxes govuk-checkboxes--small j2-card__reviewed" data-module="govuk-checkboxes">
+<div class="govuk-checkboxes__item">
+<input class="govuk-checkboxes__input" id="reviewed-{{ section.id }}" type="checkbox" data-reviewed="{{ section.id }}"{% if isReviewed %} checked{% endif %}>
+<label class="govuk-label govuk-checkboxes__label" for="reviewed-{{ section.id }}">I have reviewed this section</label>
+</div>
+</div>
+ 
+</div>
+ 
+{% endfor %}
+ 
+<form method="post" action="/journey-2/submit">
+<button class="govuk-button" data-module="govuk-button" data-submit-button{% if reviewedCount.length != sections.length %} disabled aria-disabled="true"{% endif %}>Submit assessment report</button>
+<p class="has-footnote" data-submit-hint{% if reviewedCount.length == sections.length %} hidden{% endif %}>Available once every section has been reviewed.</p>
+</form>
+ 
+<p class="j2-other-view"><a class="govuk-link" href="/transcription/review-draft-report">View draft summaries</a></p>
+ 
+<script>
+(function () {
+  var timers = {}
+  var queue = Promise.resolve()
+  function save (name, value) {
+    // saves run one at a time so simultaneous saves cannot overwrite each other
+    queue = queue.then(function () {
+      var body = new URLSearchParams()
+      body.append(name, value)
+      return fetch('/transcription/autosave', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString()
       })
+    })
+  }
+ 
+  // Ticking the review box records it and updates the tag straight away,
+  // so the HCP never has to save or reload to see the status change.
+  var boxes = document.querySelectorAll('[data-reviewed]')
+ 
+  function refreshSubmit () {
+    var all = Array.prototype.every.call(boxes, function (b) { return b.checked })
+    var button = document.querySelector('[data-submit-button]')
+    var hint = document.querySelector('[data-submit-hint]')
+    if (button) {
+      button.disabled = !all
+      if (all) { button.removeAttribute('aria-disabled') } else { button.setAttribute('aria-disabled', 'true') }
+    }
+    if (hint) hint.hidden = all
+  }
+ 
+  boxes.forEach(function (box) {
+    box.addEventListener('change', function () {
+      var id = box.getAttribute('data-reviewed')
+      var tag = document.querySelector('[data-tag-for="' + id + '"]')
+      if (tag) {
+        var offLabel = tag.getAttribute('data-unreviewed-label')
+        var offClass = tag.getAttribute('data-unreviewed-class')
+        tag.classList.remove('govuk-tag--green', 'govuk-tag--blue', 'govuk-tag--grey')
+        tag.classList.add(box.checked ? 'govuk-tag--green' : offClass)
+        tag.textContent = box.checked ? 'Reviewed' : offLabel
+      }
+      save('j2-reviewed-' + id, box.checked ? 'yes' : '')
       refreshSubmit()
-
-      document.querySelectorAll('[data-autosave-name]').forEach(function (el) {
-        el.addEventListener('focus', function () {
-          if (el.getAttribute('data-empty') === 'true') {
-            el.textContent = ''
-            el.removeAttribute('data-empty')
-            el.classList.remove('j2-card__text--empty')
-          }
-        })
-        el.addEventListener('input', function () {
-          var name = el.getAttribute('data-autosave-name')
-          clearTimeout(timers[name])
-          timers[name] = setTimeout(function () { save(name, el.innerText) }, 500)
-        })
-      })
-    })()
-  </script>
+    })
+  })
+ 
+  refreshSubmit()
+ 
+  document.querySelectorAll('[data-autosave-name]').forEach(function (el) {
+    el.addEventListener('focus', function () {
+      if (el.getAttribute('data-empty') === 'true') {
+        el.textContent = ''
+        el.removeAttribute('data-empty')
+        el.classList.remove('j2-card__text--empty')
+      }
+    })
+    el.addEventListener('input', function () {
+      var name = el.getAttribute('data-autosave-name')
+      clearTimeout(timers[name])
+      timers[name] = setTimeout(function () { save(name, el.innerText) }, 500)
+    })
+  })
+})()
+</script>
+ 
 {% endblock %}
