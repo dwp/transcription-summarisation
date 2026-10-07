@@ -1,0 +1,102 @@
+{# Evidence task page for the Evidence based summary options.
+   Set esBase before including, e.g. "/evidence-summary/option-1". #}
+ 
+<div class="govuk-grid-row">
+ 
+  <div class="govuk-grid-column-one-third">
+    <nav class="es-task-nav" aria-label="Assessment sections">
+      <a href="/evidence-summary" class="govuk-back-link es-task-nav__back">Go back to assessment type</a>
+ 
+      {% set sections = [
+        { heading: "Evidence", items: ["Evidence"] },
+        { heading: "Consultation", items: ["Consultation date", "Claimant identity", "Claimant consent", "Additional attendees", "Condition history", "Medication", "Social and occupational history", "Functional history"] },
+        { heading: "Observations", items: ["Mental state observations", "Informal observations"] },
+        { heading: "Summary", items: ["Additional needs"] }
+      ] %}
+ 
+      {% for section in sections %}
+        <h2 class="es-task-nav__heading">{{ section.heading }}</h2>
+        <ul class="es-task-nav__list">
+          {% for item in section.items %}
+            {% if item == "Evidence" %}
+              <li class="es-task-nav__item es-task-nav__item--current">
+                <a class="govuk-link es-task-nav__link" href="{{ esBase }}/evidence" aria-current="page">{{ item }}</a>
+              </li>
+            {% else %}
+              <li class="es-task-nav__item">
+                <a class="govuk-link es-task-nav__link" href="#">{{ item }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endfor %}
+ 
+      <a href="#" role="button" draggable="false" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">Check answers</a>
+    </nav>
+  </div>
+ 
+  <div class="govuk-grid-column-two-thirds">
+ 
+    <h1 class="govuk-heading-l">Evidence</h1>
+ 
+    <p class="govuk-body">45 documents have been added from DRS.</p>
+ 
+    <a href="{{ esBase }}/claimant-documents" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">View evidence</a>
+ 
+    <form method="post" novalidate>
+ 
+      <div class="govuk-form-group govuk-!-margin-top-6">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h2 class="govuk-fieldset__heading">Did the claimant present further evidence during the consultation?</h2>
+          </legend>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="es-further-evidence" name="es-further-evidence" type="radio" value="yes">
+              <label class="govuk-label govuk-radios__label" for="es-further-evidence">Yes</label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="es-further-evidence-2" name="es-further-evidence" type="radio" value="no">
+              <label class="govuk-label govuk-radios__label" for="es-further-evidence-2">No</label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+ 
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h2 class="govuk-fieldset__heading">Evidence declaration</h2>
+          </legend>
+          <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="es-evidence-declaration" name="es-evidence-declaration" type="checkbox" value="reviewed">
+              <label class="govuk-label govuk-checkboxes__label" for="es-evidence-declaration">All evidence available on the day of the assessment report has been reviewed.</label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+ 
+    </form>
+ 
+    <h2 class="govuk-heading-m govuk-!-margin-top-6">Abbreviations used in this report</h2>
+ 
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Abbreviation</th>
+          <th scope="col" class="govuk-table__header">What it means</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        {% for row in [["CH", "Condition history"], ["FE", "Further evidence"], ["FH", "Functional history"], ["IO", "Informal observations"], ["MSO", "Mental state observations"], ["SOH", "Social and occupational history"]] %}
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">{{ row[0] }}</th>
+            <td class="govuk-table__cell">{{ row[1] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+ 
+  </div>
+</div>

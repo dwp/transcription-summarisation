@@ -1,0 +1,81 @@
+{# Claimant documents list for the Evidence based summary options.
+   No per-document summaries. Set esBase before including. #}
+ 
+<a href="{{ esBase }}/evidence" class="govuk-back-link">Back</a>
+ 
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Claimant documents (45)</h1>
+ 
+<p class="govuk-body-s govuk-!-margin-bottom-8">Last updated from DRS on 16 Sep 2024 at 2:08am</p>
+ 
+<div class="es-important">
+  <span class="es-important__label">Important</span>
+  <div class="es-important__body">
+    <h2 class="govuk-heading-s es-important__title">View a full PDF of all the claimant's evidence</h2>
+    <a href="#" class="govuk-link govuk-body-s">Review full PDF summary</a>
+  </div>
+</div>
+ 
+{% set documents = [
+  ["Award review AR1", "27 Jul 2021", "10 Sept 2021"],
+  ["Award review AR1 covering letter", "27 Jul 2021", "10 Sept 2021"],
+  ["Further evidence", "3 Sept 2021", "10 Sept 2021"],
+  ["WHITE MAIL UNSTRUCTURED", "", "10 Sept 2021"],
+  ["GP letter", "8 Feb 2019", "10 Sept 2021"],
+  ["GP letter", "19 Jan 2019", "10 Sept 2021"],
+  ["Further evidence", "10 Oct 2019", "10 Sept 2021"],
+  ["ESA85", "16 Mar 2018", "10 Sept 2021"],
+  ["ESA50", "2 Mar 2019", "10 Sept 2021"],
+  ["PA4 report", "18 Aug 2017", "10 Sept 2021"],
+  ["Award review AR1", "8 May 2017", "10 Sept 2021"],
+  ["PA4 report", "26 Oct 2015", "10 Sept 2021"],
+  ["PIP 2 questionnaire", "20 Aug 2015", "10 Sept 2021"]
+] %}
+ 
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Name</th>
+      <th scope="col" class="govuk-table__header"><span class="es-sort">Date of document<span class="es-sort__arrow" aria-hidden="true">&#8597;</span></span></th>
+      <th scope="col" class="govuk-table__header" aria-sort="descending"><span class="es-sort">Date DWP received<span class="es-sort__arrow" aria-hidden="true">&#9662;</span></span></th>
+      <th scope="col" class="govuk-table__header"><span class="es-sort">Read status<span class="es-sort__arrow" aria-hidden="true">&#8597;</span></span></th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    {% for doc in documents %}
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell"><a href="#" class="govuk-link">{{ doc[0] }}</a></td>
+        <td class="govuk-table__cell govuk-body-s">{{ doc[1] }}</td>
+        <td class="govuk-table__cell govuk-body-s">{{ doc[2] }}</td>
+        <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--light-blue">Not started</strong></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+ 
+<div class="es-table-footer">
+  <nav class="govuk-pagination" aria-label="Pagination">
+    <ul class="govuk-pagination__list">
+      <li class="govuk-pagination__item govuk-pagination__item--current">
+        <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 1" aria-current="page">1</a>
+      </li>
+      <li class="govuk-pagination__item">
+        <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 2">2</a>
+      </li>
+      <li class="govuk-pagination__item">
+        <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 3">3</a>
+      </li>
+      <li class="govuk-pagination__item">
+        <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 4">4</a>
+      </li>
+    </ul>
+    <div class="govuk-pagination__next">
+      <a class="govuk-link govuk-pagination__link" href="#" rel="next">
+        <span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>
+        <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+          <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+        </svg>
+      </a>
+    </div>
+  </nav>
+  <p class="govuk-body govuk-!-margin-bottom-0">Showing <strong>1</strong> to <strong>13</strong> of <strong>45</strong> documents</p>
+</div>

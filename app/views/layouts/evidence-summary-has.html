@@ -1,0 +1,64 @@
+{# HAS look for the Evidence based summary (team Sparrowhawk) option pages.
+   Black Health Assessment Service bar and blue claimant banner reuse the
+   has-header and has-claimant-banner styles already in application.scss.
+   The es- styles below are only used by these pages. #}
+ 
+{% extends "govuk-prototype-kit/layouts/govuk-branded.njk" %}
+ 
+{% from "internal-service-footer/macro.njk" import dwpFooter %}
+ 
+{% block pageTitle %}{{ pageName }} - Health Assessment Service{% endblock %}
+ 
+{% block stylesheets %}
+  {{ super() }}
+  <style>
+    .es-task-nav__heading, .es-important__label { font-family: "GDS Transport", arial, sans-serif; }
+    .es-banner-rule { border-top: 1px solid rgba(255,255,255,0.5); margin-top: 10px; padding-top: 10px; }
+ 
+    .es-task-nav { margin-bottom: 30px; }
+    .es-task-nav__back { margin-top: 0; margin-bottom: 30px; }
+    .es-task-nav__heading { font-size: 19px; line-height: 1.3; font-weight: 400; color: #0b0c0c; margin: 25px 0 10px 0; }
+    .es-task-nav__list { list-style: none; margin: 0; padding: 0; }
+    .es-task-nav__item { margin: 0; }
+    .es-task-nav__link { display: block; padding: 8px 10px 8px 15px; border-left: 4px solid transparent; font-size: 16px; line-height: 1.25; }
+    .es-task-nav__item--current .es-task-nav__link { border-left-color: #1d70b8; background: #f3f2f1; font-weight: 700; text-decoration: none; }
+ 
+    .es-important { border: 5px solid #1d70b8; margin-bottom: 40px; }
+    .es-important__label { display: inline-block; background: #1d70b8; color: #ffffff; font-weight: 700; font-size: 16px; padding: 5px 20px 7px 20px; }
+    .es-important__body { padding: 15px 20px 20px 20px; }
+    .es-important__title { margin: 0 0 5px 0; }
+ 
+    .es-sort { color: #1d70b8; white-space: nowrap; }
+    .es-sort__arrow { font-size: 12px; margin-left: 4px; }
+ 
+    .es-table-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+    .es-table-footer .govuk-pagination { margin-bottom: 0; }
+  </style>
+{% endblock %}
+ 
+{% block header %}
+  <header class="has-header" role="banner">
+    <div class="govuk-width-container">
+      <div class="has-header__service">Health Assessment Service</div>
+    </div>
+  </header>
+  <div class="has-claimant-banner">
+    <div class="govuk-width-container">
+      <div class="has-claimant-banner__name">Raymond Adamu <span class="has-claimant-banner__nino">RN 65 43 21 X</span></div>
+      <div class="has-claimant-banner__details es-banner-rule">Date of birth: 30 July 1961</div>
+    </div>
+  </div>
+{% endblock %}
+ 
+{% block footer %}
+  {{ dwpFooter({
+    meta: {
+      visuallyHiddenTitle: "About this website",
+      items: [
+        { href: "#", text: "Accessibility statement" },
+        { href: "#", text: "AI notice" },
+        { href: "/manage-prototype/clear-data", text: "Clear data" }
+      ]
+    }
+  }) }}
+{% endblock %}

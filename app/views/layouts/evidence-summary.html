@@ -1,0 +1,34 @@
+{# Layout for the Evidence based summary (team Sparrowhawk) pages only.
+   Same DWP header and footer as the Team SWIFT index, with its own service name. #}
+ 
+{% extends "layouts/main.html" %}
+ 
+{% from "internal-service-header/macro.njk" import dwpHeader %}
+{% from "internal-service-footer/macro.njk" import dwpFooter %}
+ 
+{% block header %}
+  {{ dwpHeader({
+    serviceName: "Evidence summary",
+    serviceHref: "/evidence-summary",
+    container: true,
+    navigation: {
+      items: [
+        { href: "/", text: "Home" },
+        { href: "#", text: "Logout" }
+      ]
+    }
+  }) }}
+{% endblock %}
+ 
+{% block footer %}
+  {{ dwpFooter({
+    meta: {
+      visuallyHiddenTitle: "About this website",
+      items: [
+        { href: "#", text: "Accessibility statement" },
+        { href: "#", text: "AI notice" },
+        { href: "/manage-prototype/clear-data", text: "Clear data" }
+      ]
+    }
+  }) }}
+{% endblock %}
