@@ -1,11 +1,49 @@
 {# Claimant documents list for the Evidence based summary options.
-   No per-document summaries. Set esBase before including. #}
+   Tabs, 25 documents per page, no per-document summaries.
+   Pinned documents are listed in their own table above the tabs.
+   Set esBase before including. The page number comes from ?es-page=n.
+   Pinning uses session keys like es-o1-pin-3 (option 1, document 3) set by
+   the Pin and Unpin links, so each option keeps its own pins. #}
+ 
+{% import "includes/es-documents.html" as esDocs %}
+{% set documents = esDocs.documents %}
+{% set perPage = 25 %}
+{% set totalPages = ((documents | length) / perPage) | round(0, "ceil") | int %}
+{% set currentPage = (data['es-page'] or 1) | int(1) %}
+{% if currentPage < 1 or currentPage > totalPages %}{% set currentPage = 1 %}{% endif %}
+{% set pinPrefix = "es-" + (esBase | replace("/evidence-summary/option-", "o")) + "-pin-" %}
+{% set pinned = [] %}
+{% for doc in documents %}
+  {% if data[pinPrefix + loop.index] == "yes" %}{% set _ = pinned.push({ doc: doc, n: loop.index }) %}{% endif %}
+{% endfor %}
+{% set firstIndex = (currentPage - 1) * perPage + 1 %}
+{% set lastIndex = currentPage * perPage %}
+{% if lastIndex > (documents | length) %}{% set lastIndex = documents | length %}{% endif %}
  
 <a href="{{ esBase }}/evidence" class="govuk-back-link">Back</a>
  
-<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Claimant documents (45)</h1>
+{# One hidden success banner per pinned document; the script at the bottom shows the right one #}
+{% for item in pinned %}
+  <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="es-pinned-title-{{ item.n }}" tabindex="-1" id="es-pinned-banner-{{ item.n }}" hidden>
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="es-pinned-title-{{ item.n }}">Success</h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-notification-banner__heading">{{ item.doc.name }}{% if item.doc.date %} ({{ item.doc.date }}){% endif %} has been added to pinned documents.</p>
+    </div>
+  </div>
+{% endfor %}
  
-<p class="govuk-body-s govuk-!-margin-bottom-8">Last updated from DRS on 16 Sep 2024 at 2:08am</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Claimant documents summary ({{ documents | length }})</h1>
+    <p class="govuk-body-s govuk-!-margin-bottom-8">Last updated from DRS on 16 Sep 2024 at 2:08am</p>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <h2 class="govuk-heading-m">Manage</h2>
+    <p class="govuk-body"><a href="#" class="govuk-link">Update document details</a></p>
+  </div>
+</div>
  
 <div class="es-important">
   <span class="es-important__label">Important</span>
@@ -15,67 +53,141 @@
   </div>
 </div>
  
-{% set documents = [
-  ["Award review AR1", "27 Jul 2021", "10 Sept 2021"],
-  ["Award review AR1 covering letter", "27 Jul 2021", "10 Sept 2021"],
-  ["Further evidence", "3 Sept 2021", "10 Sept 2021"],
-  ["WHITE MAIL UNSTRUCTURED", "", "10 Sept 2021"],
-  ["GP letter", "8 Feb 2019", "10 Sept 2021"],
-  ["GP letter", "19 Jan 2019", "10 Sept 2021"],
-  ["Further evidence", "10 Oct 2019", "10 Sept 2021"],
-  ["ESA85", "16 Mar 2018", "10 Sept 2021"],
-  ["ESA50", "2 Mar 2019", "10 Sept 2021"],
-  ["PA4 report", "18 Aug 2017", "10 Sept 2021"],
-  ["Award review AR1", "8 May 2017", "10 Sept 2021"],
-  ["PA4 report", "26 Oct 2015", "10 Sept 2021"],
-  ["PIP 2 questionnaire", "20 Aug 2015", "10 Sept 2021"]
-] %}
- 
-<table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Name</th>
-      <th scope="col" class="govuk-table__header"><span class="es-sort">Date of document<span class="es-sort__arrow" aria-hidden="true">&#8597;</span></span></th>
-      <th scope="col" class="govuk-table__header" aria-sort="descending"><span class="es-sort">Date DWP received<span class="es-sort__arrow" aria-hidden="true">&#9662;</span></span></th>
-      <th scope="col" class="govuk-table__header"><span class="es-sort">Read status<span class="es-sort__arrow" aria-hidden="true">&#8597;</span></span></th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    {% for doc in documents %}
+{% if pinned | length %}
+  <h2 class="govuk-heading-m">Pinned documents ({{ pinned | length }})</h2>
+  <table class="govuk-table es-pinned">
+    <caption class="govuk-table__caption govuk-visually-hidden">Pinned documents</caption>
+    <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><a href="#" class="govuk-link">{{ doc[0] }}</a></td>
-        <td class="govuk-table__cell govuk-body-s">{{ doc[1] }}</td>
-        <td class="govuk-table__cell govuk-body-s">{{ doc[2] }}</td>
-        <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--light-blue">Not started</strong></td>
+        <th scope="col" class="govuk-table__header">Name</th>
+        <th scope="col" class="govuk-table__header">Date of document</th>
+        <th scope="col" class="govuk-table__header">Date DWP received</th>
+        <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Actions</span></th>
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody class="govuk-table__body">
+      {% for item in pinned %}
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell"><a href="{{ esBase }}/document?es-doc={{ item.n }}" class="govuk-link">{{ item.doc.name }}</a></td>
+          <td class="govuk-table__cell govuk-body-s">{{ item.doc.date }}</td>
+          <td class="govuk-table__cell govuk-body-s">{{ item.doc.received }}</td>
+          <td class="govuk-table__cell govuk-table__cell--numeric"><a href="{{ esBase }}/claimant-documents?es-page={{ currentPage }}&amp;{{ pinPrefix }}{{ item.n }}=no" class="govuk-link">Unpin<span class="govuk-visually-hidden"> {{ item.doc.name }}</span></a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
  
-<div class="es-table-footer">
-  <nav class="govuk-pagination" aria-label="Pagination">
-    <ul class="govuk-pagination__list">
-      <li class="govuk-pagination__item govuk-pagination__item--current">
-        <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 1" aria-current="page">1</a>
-      </li>
-      <li class="govuk-pagination__item">
-        <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 2">2</a>
-      </li>
-      <li class="govuk-pagination__item">
-        <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 3">3</a>
-      </li>
-      <li class="govuk-pagination__item">
-        <a class="govuk-link govuk-pagination__link" href="#" aria-label="Page 4">4</a>
-      </li>
-    </ul>
-    <div class="govuk-pagination__next">
-      <a class="govuk-link govuk-pagination__link" href="#" rel="next">
-        <span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>
-        <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
-          <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
-        </svg>
-      </a>
+<div class="govuk-tabs" data-module="govuk-tabs">
+  <h2 class="govuk-tabs__title">Documents</h2>
+  <ul class="govuk-tabs__list">
+    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+      <a class="govuk-tabs__tab" href="#es-questionnaires">Questionnaires and assessment reports</a>
+    </li>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#es-other-clinical">Other clinical documents</a>
+    </li>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#es-non-clinical">Non-clinical documents</a>
+    </li>
+  </ul>
+ 
+  <div class="govuk-tabs__panel" id="es-questionnaires">
+    <table class="govuk-table">
+      <caption class="govuk-table__caption govuk-visually-hidden">Questionnaires and assessment reports, page {{ currentPage }} of {{ totalPages }}</caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Name</th>
+          <th scope="col" class="govuk-table__header"><span class="es-sort">Date of document<span class="es-sort__arrow" aria-hidden="true">&#8597;</span></span></th>
+          <th scope="col" class="govuk-table__header" aria-sort="descending"><span class="es-sort">Date DWP received<span class="es-sort__arrow" aria-hidden="true">&#9662;</span></span></th>
+          <th scope="col" class="govuk-table__header"><span class="es-sort">Read status<span class="es-sort__arrow" aria-hidden="true">&#8597;</span></span></th>
+          <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        {% for doc in documents %}
+          {% if loop.index >= firstIndex and loop.index <= lastIndex %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><a href="{{ esBase }}/document?es-doc={{ loop.index }}" class="govuk-link">{{ doc.name }}</a></td>
+              <td class="govuk-table__cell govuk-body-s">{{ doc.date }}</td>
+              <td class="govuk-table__cell govuk-body-s">{{ doc.received }}</td>
+              <td class="govuk-table__cell">
+                {% if doc.read %}Read{% else %}<strong class="govuk-tag govuk-tag--light-blue">Unread</strong>{% endif %}
+              </td>
+              <td class="govuk-table__cell es-nowrap">
+                {% if data[pinPrefix + loop.index] == "yes" %}
+                  <a href="{{ esBase }}/claimant-documents?es-page={{ currentPage }}&amp;{{ pinPrefix }}{{ loop.index }}=no" class="govuk-link">Unpin document<span class="govuk-visually-hidden">: {{ doc.name }}</span></a>
+                {% else %}
+                  <a href="{{ esBase }}/claimant-documents?es-page={{ currentPage }}&amp;{{ pinPrefix }}{{ loop.index }}=yes" class="govuk-link">Pin document<span class="govuk-visually-hidden">: {{ doc.name }}</span></a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+ 
+    <div class="es-table-footer">
+      <nav class="govuk-pagination" aria-label="Pagination">
+        {% if currentPage > 1 %}
+          <div class="govuk-pagination__prev">
+            <a class="govuk-link govuk-pagination__link" href="{{ esBase }}/claimant-documents?es-page={{ currentPage - 1 }}" rel="prev">
+              <svg class="govuk-pagination__icon govuk-pagination__icon--prev" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                <path d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"></path>
+              </svg>
+              <span class="govuk-pagination__link-title">Previous<span class="govuk-visually-hidden"> page</span></span>
+            </a>
+          </div>
+        {% endif %}
+        <ul class="govuk-pagination__list">
+          {% for p in range(1, totalPages + 1) %}
+            <li class="govuk-pagination__item{% if p == currentPage %} govuk-pagination__item--current{% endif %}">
+              <a class="govuk-link govuk-pagination__link" href="{{ esBase }}/claimant-documents?es-page={{ p }}" aria-label="Page {{ p }}"{% if p == currentPage %} aria-current="page"{% endif %}>{{ p }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if currentPage < totalPages %}
+          <div class="govuk-pagination__next">
+            <a class="govuk-link govuk-pagination__link" href="{{ esBase }}/claimant-documents?es-page={{ currentPage + 1 }}" rel="next">
+              <span class="govuk-pagination__link-title">Next<span class="govuk-visually-hidden"> page</span></span>
+              <svg class="govuk-pagination__icon govuk-pagination__icon--next" xmlns="http://www.w3.org/2000/svg" height="13" width="15" aria-hidden="true" focusable="false" viewBox="0 0 15 13">
+                <path d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+              </svg>
+            </a>
+          </div>
+        {% endif %}
+      </nav>
+      <p class="govuk-body govuk-!-margin-bottom-0">Showing <strong>{{ firstIndex }}</strong> to <strong>{{ lastIndex }}</strong> of <strong>{{ documents | length }}</strong> documents</p>
     </div>
-  </nav>
-  <p class="govuk-body govuk-!-margin-bottom-0">Showing <strong>1</strong> to <strong>13</strong> of <strong>45</strong> documents</p>
+  </div>
+ 
+  <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="es-other-clinical">
+    <p class="govuk-body">There are currently no other clinical documents available for this claimant.</p>
+  </div>
+ 
+  <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="es-non-clinical">
+    <p class="govuk-body">There are currently no non-clinical documents available for this claimant.</p>
+  </div>
 </div>
+ 
+<script>
+  // Prototype only: show the pinned success banner once, straight after a
+  // Pin link is clicked. The Pin link adds {{ pinPrefix }}<number>=yes to the
+  // address, so we look for that, show the matching banner, then tidy the
+  // address so a refresh does not show it again.
+  (function () {
+    var params = new URLSearchParams(window.location.search)
+    var shown = false
+    params.forEach(function (value, key) {
+      if (shown || value !== 'yes' || key.indexOf('{{ pinPrefix }}') !== 0) return
+      var banner = document.getElementById('es-pinned-banner-' + key.slice({{ pinPrefix | length }}))
+      if (!banner) return
+      banner.hidden = false
+      banner.focus()
+      shown = true
+      params.delete(key)
+      var query = params.toString()
+      window.history.replaceState(null, '', window.location.pathname + (query ? '?' + query : ''))
+    })
+  })()
+</script>

@@ -1,0 +1,97 @@
+{# Single document page for the Evidence based summary options.
+   Set esBase before including. The document number comes from ?es-doc=n. #}
+ 
+{% import "includes/es-documents.html" as esDocs %}
+{% set documents = esDocs.documents %}
+{% set total = documents | length %}
+{% set docNumber = (data['es-doc'] or 1) | int(1) %}
+{% if docNumber < 1 or docNumber > total %}{% set docNumber = 1 %}{% endif %}
+{% set doc = documents[docNumber - 1] %}
+{% set pinPrefix = "es-" + (esBase | replace("/evidence-summary/option-", "o")) + "-pin-" %}
+{% set isPinned = data[pinPrefix + docNumber] == "yes" %}
+ 
+<a href="{{ esBase }}/claimant-documents" class="govuk-back-link">Back to claimant documents</a>
+ 
+{% if isPinned %}
+  <div class="govuk-notification-banner govuk-notification-banner--success" role="alert" aria-labelledby="es-pinned-title-{{ docNumber }}" tabindex="-1" id="es-pinned-banner-{{ docNumber }}" hidden>
+    <div class="govuk-notification-banner__header">
+      <h2 class="govuk-notification-banner__title" id="es-pinned-title-{{ docNumber }}">Success</h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <p class="govuk-notification-banner__heading">This document has been added to pinned documents.</p>
+    </div>
+  </div>
+{% endif %}
+ 
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l">Document {{ docNumber }} of {{ total }}</span>
+    <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">{{ doc.name }}</h1>
+    {% if isPinned %}<p class="govuk-body"><strong class="govuk-tag govuk-tag--blue">Pinned</strong></p>{% endif %}
+ 
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Date of document</dt>
+        <dd class="govuk-summary-list__value">{{ doc.date or "Not known" }}</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Date DWP received</dt>
+        <dd class="govuk-summary-list__value">{{ doc.received }}</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Category</dt>
+        <dd class="govuk-summary-list__value">Questionnaires and assessment reports</dd>
+      </div>
+    </dl>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <h2 class="govuk-heading-m">Manage</h2>
+    <ul class="govuk-list">
+      <li><a href="#" class="govuk-link">Update document details</a></li>
+      <li><a href="#" class="govuk-link">Open PDF in a new tab</a></li>
+      {% if isPinned %}
+        <li><a href="{{ esBase }}/document?es-doc={{ docNumber }}&amp;{{ pinPrefix }}{{ docNumber }}=no" class="govuk-link">Unpin document</a></li>
+      {% else %}
+        <li><a href="{{ esBase }}/document?es-doc={{ docNumber }}&amp;{{ pinPrefix }}{{ docNumber }}=yes" class="govuk-link">Pin document</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+ 
+<nav class="es-doc-nav" aria-label="Documents">
+  {% if docNumber > 1 %}
+    <a href="{{ esBase }}/document?es-doc={{ docNumber - 1 }}" class="govuk-link">Previous document<span class="govuk-visually-hidden">: {{ documents[docNumber - 2].name }}</span></a>
+  {% else %}<span></span>{% endif %}
+  {% if docNumber < total %}
+    <a href="{{ esBase }}/document?es-doc={{ docNumber + 1 }}" class="govuk-link">Next document<span class="govuk-visually-hidden">: {{ documents[docNumber].name }}</span></a>
+  {% endif %}
+</nav>
+ 
+<div class="es-pdf-viewer" role="region" aria-label="PDF viewer">
+  <div class="es-pdf-viewer__bar">{{ doc.name }}.pdf</div>
+  <div class="es-pdf-viewer__page">
+    <p class="govuk-body govuk-!-margin-bottom-0">The PDF of this document will show here.</p>
+  </div>
+</div>
+ 
+<script>
+  // Prototype only: show the pinned success banner once, straight after a
+  // Pin link is clicked. The Pin link adds {{ pinPrefix }}<number>=yes to the
+  // address, so we look for that, show the matching banner, then tidy the
+  // address so a refresh does not show it again.
+  (function () {
+    var params = new URLSearchParams(window.location.search)
+    var shown = false
+    params.forEach(function (value, key) {
+      if (shown || value !== 'yes' || key.indexOf('{{ pinPrefix }}') !== 0) return
+      var banner = document.getElementById('es-pinned-banner-' + key.slice({{ pinPrefix | length }}))
+      if (!banner) return
+      banner.hidden = false
+      banner.focus()
+      shown = true
+      params.delete(key)
+      var query = params.toString()
+      window.history.replaceState(null, '', window.location.pathname + (query ? '?' + query : ''))
+    })
+  })()
+</script>

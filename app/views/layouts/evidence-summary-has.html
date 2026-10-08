@@ -7,12 +7,12 @@
  
 {% from "internal-service-footer/macro.njk" import dwpFooter %}
  
-{% block pageTitle %}{{ pageName }} - Health Assessment Service{% endblock %}
+{% block pageTitle %}{{ pageName }} – Health Assessment Service{% endblock %}
  
 {% block stylesheets %}
   {{ super() }}
   <style>
-    .es-task-nav__heading, .es-important__label { font-family: "GDS Transport", arial, sans-serif; }
+    .es-task-nav__heading, .es-important__label, .es-pdf-viewer__bar { font-family: "GDS Transport", arial, sans-serif; }
     .es-banner-rule { border-top: 1px solid rgba(255,255,255,0.5); margin-top: 10px; padding-top: 10px; }
  
     .es-task-nav { margin-bottom: 30px; }
@@ -33,6 +33,12 @@
  
     .es-table-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
     .es-table-footer .govuk-pagination { margin-bottom: 0; }
+    .es-nowrap { white-space: nowrap; }
+    .es-pinned { margin-bottom: 40px; }
+    .es-doc-nav { display: flex; justify-content: space-between; margin: 30px 0 15px 0; }
+    .es-pdf-viewer { border: 1px solid #b1b4b6; background: #f3f2f1; margin-bottom: 40px; }
+    .es-pdf-viewer__bar { background: #505a5f; color: #ffffff; font-size: 16px; padding: 8px 15px; }
+    .es-pdf-viewer__page { background: #ffffff; margin: 30px auto; max-width: 600px; min-height: 500px; padding: 40px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   </style>
 {% endblock %}
  
