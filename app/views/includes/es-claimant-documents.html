@@ -26,9 +26,9 @@
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Name</th>
-        <th scope="col" class="govuk-table__header"><span class="es-sort">Date of document<span class="es-sort__arrow" aria-hidden="true">&#8597;</span></span></th>
+        <th scope="col" class="govuk-table__header"><span class="es-sort">Date of document<span class="es-sort__arrow" aria-hidden="true">&#9662;</span></span></th>
         <th scope="col" class="govuk-table__header" aria-sort="descending"><span class="es-sort">Date DWP received<span class="es-sort__arrow" aria-hidden="true">&#9662;</span></span></th>
-        <th scope="col" class="govuk-table__header"><span class="es-sort">Read status<span class="es-sort__arrow" aria-hidden="true">&#8597;</span></span></th>
+        <th scope="col" class="govuk-table__header"><span class="es-sort">Read status<span class="es-sort__arrow" aria-hidden="true">&#9662;</span></span></th>
         <th scope="col" class="govuk-table__header"><span class="govuk-visually-hidden">Pin</span></th>
       </tr>
     </thead>
@@ -81,7 +81,7 @@
  
 <div class="govuk-inset-text">
   <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-1">A PDF summary of the claimant's evidence is available.</p>
-  <a href="#" class="govuk-link">View evidence summary (opens in new tab)</a>
+  <a href="/public/documents/{{ esDocs.summaryFile | urlencode }}" class="govuk-link" target="_blank" rel="noopener noreferrer">View evidence summary (opens in new tab)</a>
 </div>
  
 {% if pinned | length %}
