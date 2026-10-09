@@ -40,7 +40,9 @@
       </div>
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Category</dt>
-        <dd class="govuk-summary-list__value">Questionnaires and assessment reports</dd>
+        <dd class="govuk-summary-list__value">
+          {% if doc.category == "clinical" %}Other clinical documents{% elif doc.category == "nonclinical" %}Non-clinical documents{% else %}Questionnaires and assessment reports{% endif %}
+        </dd>
       </div>
     </dl>
   </div>
@@ -48,7 +50,9 @@
     <h2 class="govuk-heading-m">Manage</h2>
     <ul class="govuk-list">
       <li><a href="#" class="govuk-link">Update document details</a></li>
-      <li><a href="#" class="govuk-link">Open PDF in a new tab</a></li>
+      {% if doc.file %}
+        <li><a href="/public/documents/{{ doc.file | urlencode }}" class="govuk-link" target="_blank" rel="noopener noreferrer">Open PDF in a new tab</a></li>
+      {% endif %}
       {% if isPinned %}
         <li><a href="{{ esBase }}/document?es-doc={{ docNumber }}&amp;{{ pinPrefix }}{{ docNumber }}=no" class="govuk-link">Unpin document</a></li>
       {% else %}
@@ -67,12 +71,16 @@
   {% endif %}
 </nav>
  
-<div class="es-pdf-viewer" role="region" aria-label="PDF viewer">
-  <div class="es-pdf-viewer__bar">{{ doc.name }}.pdf</div>
-  <div class="es-pdf-viewer__page">
-    <p class="govuk-body govuk-!-margin-bottom-0">The PDF of this document will show here.</p>
+{% if doc.file %}
+  <iframe class="es-pdf-frame" src="/public/documents/{{ doc.file | urlencode }}" title="{{ doc.name }} PDF"></iframe>
+{% else %}
+  <div class="es-pdf-viewer" role="region" aria-label="PDF viewer">
+    <div class="es-pdf-viewer__bar">{{ doc.name }}.pdf</div>
+    <div class="es-pdf-viewer__page">
+      <p class="govuk-body govuk-!-margin-bottom-0">The PDF of this document will show here.</p>
+    </div>
   </div>
-</div>
+{% endif %}
  
 <script>
   // Prototype only: show the pinned success banner once, straight after a

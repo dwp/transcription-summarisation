@@ -39,9 +39,10 @@
  
     <h1 class="govuk-heading-l">Evidence</h1>
  
-    <p class="govuk-body">45 documents have been added from DRS.</p>
+    {% import "includes/es-documents.html" as esDocs %}
+    <p class="govuk-body">{{ esDocs.documents | length }} documents have been added from DRS.</p>
  
-    <a href="{{ esBase }}/claimant-documents?es-page=1" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">View evidence</a>
+    <a href="{{ esBase }}/claimant-documents" role="button" draggable="false" class="govuk-button govuk-button--secondary" data-module="govuk-button">View evidence</a>
  
     <form method="post" novalidate>
  

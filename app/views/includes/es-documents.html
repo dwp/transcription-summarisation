@@ -1,51 +1,23 @@
 {# Dummy claimant documents for the Evidence based summary options.
+   Only the documents with PDFs (Rosie, 9 Oct).
    Imported as data: {% import "includes/es-documents.html" as esDocs %}
-   then use esDocs.documents. 45 documents, newest received first. #}
+   then use esDocs.documents.
+   category is the tab: "questionnaires", "clinical" or "nonclinical".
+   file is the exact PDF file name in app/assets/documents/ (capitals, underscores
+   and spaces must match), served at /public/documents/<file>.
+   Leave file empty ("") for documents with no PDF yet. #}
  
 {% set documents = [
-  { name: "Award review AR1", date: "27 Jul 2021", received: "10 Sept 2021", read: true },
-  { name: "Award review AR1 covering letter", date: "27 Jul 2021", received: "10 Sept 2021", read: false },
-  { name: "Further evidence", date: "3 Sept 2021", received: "10 Sept 2021", read: false },
-  { name: "WHITE MAIL UNSTRUCTURED", date: "", received: "10 Sept 2021", read: false },
-  { name: "GP letter", date: "8 Feb 2019", received: "10 Sept 2021", read: false },
-  { name: "GP letter", date: "19 Jan 2019", received: "10 Sept 2021", read: false },
-  { name: "Further evidence", date: "10 Oct 2019", received: "10 Sept 2021", read: false },
-  { name: "ESA85", date: "16 Mar 2018", received: "10 Sept 2021", read: false },
-  { name: "ESA50", date: "2 Mar 2019", received: "10 Sept 2021", read: false },
-  { name: "PA4 report", date: "18 Aug 2017", received: "10 Sept 2021", read: false },
-  { name: "Award review AR1", date: "8 May 2017", received: "10 Sept 2021", read: false },
-  { name: "PA4 report", date: "26 Oct 2015", received: "10 Sept 2021", read: false },
-  { name: "PIP 2 questionnaire", date: "20 Aug 2015", received: "10 Sept 2021", read: false },
-  { name: "Rheumatology clinic letter", date: "14 Jun 2021", received: "10 Sept 2021", read: false },
-  { name: "Diabetes clinic letter", date: "2 Mar 2021", received: "10 Sept 2021", read: false },
-  { name: "Physiotherapy discharge report", date: "11 Jan 2021", received: "10 Sept 2021", read: false },
-  { name: "Hospital discharge summary", date: "29 Oct 2020", received: "10 Sept 2021", read: false },
-  { name: "Orthopaedic consultant letter", date: "7 Aug 2020", received: "10 Sept 2021", read: false },
-  { name: "Repeat prescription list", date: "15 Jul 2021", received: "10 Sept 2021", read: false },
-  { name: "Mental health team letter", date: "22 Apr 2020", received: "10 Sept 2021", read: false },
-  { name: "Occupational therapy assessment", date: "3 Feb 2020", received: "10 Sept 2021", read: false },
-  { name: "Carer statement", date: "19 Aug 2021", received: "10 Sept 2021", read: false },
-  { name: "X-ray report, both knees", date: "12 Nov 2019", received: "10 Sept 2021", read: false },
-  { name: "Fit note", date: "1 Jul 2021", received: "10 Sept 2021", read: false },
-  { name: "GP summary of medical records", date: "30 Jun 2021", received: "10 Sept 2021", read: false },
-  { name: "Mandatory reconsideration request", date: "14 Sept 2017", received: "2 Oct 2017", read: false },
-  { name: "Mandatory reconsideration notice", date: "20 Nov 2017", received: "20 Nov 2017", read: false },
-  { name: "GP letter", date: "5 Sept 2017", received: "2 Oct 2017", read: false },
-  { name: "PIP award letter", date: "30 May 2017", received: "30 May 2017", read: false },
-  { name: "PA4 report", date: "2 May 2017", received: "9 May 2017", read: false },
-  { name: "PIP 2 questionnaire", date: "3 Apr 2017", received: "10 Apr 2017", read: false },
-  { name: "Further evidence", date: "3 Apr 2017", received: "10 Apr 2017", read: false },
-  { name: "Podiatry letter", date: "21 Feb 2017", received: "10 Apr 2017", read: false },
-  { name: "Pain clinic letter", date: "9 Jan 2017", received: "10 Apr 2017", read: false },
-  { name: "ESA award letter", date: "14 Apr 2016", received: "14 Apr 2016", read: false },
-  { name: "ESA85", date: "1 Apr 2016", received: "5 Apr 2016", read: false },
-  { name: "ESA50", date: "4 Mar 2016", received: "11 Mar 2016", read: false },
-  { name: "Fit note", date: "18 Feb 2016", received: "11 Mar 2016", read: false },
-  { name: "Hospital discharge summary", date: "22 Dec 2015", received: "11 Mar 2016", read: false },
-  { name: "PIP award letter", date: "11 Dec 2015", received: "11 Dec 2015", read: false },
-  { name: "GP letter", date: "2 Oct 2015", received: "26 Oct 2015", read: false },
-  { name: "PIP 1 claim form", date: "3 Jul 2015", received: "3 Jul 2015", read: false },
-  { name: "Consultant letter, endocrinology", date: "15 May 2015", received: "20 Aug 2015", read: false },
-  { name: "WHITE MAIL UNSTRUCTURED", date: "", received: "20 Aug 2015", read: false },
-  { name: "Medication review", date: "6 Mar 2015", received: "20 Aug 2015", read: false }
+  { name: "UC85", date: "9 Jun 2026", received: "12 Jun 2026", read: false, category: "questionnaires", file: "UC85.pdf" },
+  { name: "AR1 questionnaire", date: "20 Apr 2026", received: "24 Apr 2026", read: false, category: "questionnaires", file: "AR1_questionnaire.pdf" },
+  { name: "PA4 report", date: "11 Sept 2023", received: "15 Sept 2023", read: false, category: "questionnaires", file: "PA4_report.pdf" },
+  { name: "PIP 2 questionnaire", date: "14 Jul 2023", received: "18 Jul 2023", read: false, category: "questionnaires", file: "PIP2_questionnaire.pdf" },
+  { name: "GP medical record", date: "9 Oct 2026", received: "9 Oct 2026", read: false, category: "clinical", file: "GP_medical record.pdf" },
+  { name: "Prescriptions", date: "9 Oct 2026", received: "9 Oct 2026", read: false, category: "clinical", file: "Prescriptions.pdf" },
+  { name: "Physiotherapy letter", date: "12 Mar 2026", received: "17 Mar 2026", read: false, category: "clinical", file: "Physiotherapy_letter.pdf" },
+  { name: "GP letter", date: "15 Feb 2026", received: "20 Feb 2026", read: false, category: "clinical", file: "GP_letter.pdf" },
+  { name: "Consultation letter", date: "4 Aug 2025", received: "11 Aug 2025", read: false, category: "clinical", file: "Consultation_letter.pdf" },
+  { name: "Hospital letter", date: "28 Jul 2025", received: "4 Aug 2025", read: false, category: "clinical", file: "Hospital_letter.pdf" },
+  { name: "Personal letter", date: "15 Feb 2026", received: "23 Feb 2026", read: false, category: "nonclinical", file: "Personal_letter.pdf" },
+  { name: "Appointment letter", date: "2 Jul 2025", received: "2 Jul 2025", read: false, category: "nonclinical", file: "Appointment_letter.pdf" }
 ] %}
